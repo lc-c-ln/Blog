@@ -11,4 +11,5 @@ pool.getConnection(function(err){
     else
     console.log('Connencted');
 })
+
 module.exports = pool
