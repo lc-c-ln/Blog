@@ -8,8 +8,9 @@ const app = express();
 app.use(express.urlencoded({extended:false}))
 
 app.use('/post', require('./api/post'))
-// app.use('/hashtag', require('./api/hashtag'))
-// app.use('/comment', require('./api/comment'))
+app.use('/tag', require('./api/tag'))
+app.use('/comment', require('./api/comment'))
+app.use('/search', require('./api/search'))
 
 app.get("/",(req,res)=>{
     res.send('ok')
