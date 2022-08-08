@@ -12,11 +12,9 @@ router.get("/", (req, res) => {
         const sql  = "SELECT count(id) as cnt from post" 
         connection.query(sql, (err,cnt)=>{
             res.json({page:rows, cnt:cnt})
-            console.log({page:rows, cnt:cnt})            
         })
             
     });
-
     connection.release();
   });
 });
