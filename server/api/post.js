@@ -1,5 +1,6 @@
 const express = require("express");
 const pool = require("../db/db_connect");
+const crypto = require("crypto"); 
 
 const router = express.Router();
 
@@ -15,11 +16,15 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log(req.body);
-  reqData = req.body;
+  password = crypto.createHash("sha256").update(req.body.password).digest("base64");
+  console.log(password);
+  // salt 추가할 것
   const con = pool.getConnection((err, connection) => {
-    const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${req.body.password}")`;
+    const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}")`;
     connection.query(sql, (err, rows) => {
+      if (err) 
+        console.log(err);
+  
       res.status(200).send("Post has created")
     });
     connection.release();
