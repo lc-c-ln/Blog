@@ -22,7 +22,6 @@ router.post("/", (req, res) => {
       if (err) res.send(err);
       else {
         res.json(rows);
-        console.log(rows)
       }
     });
     connection.release();
