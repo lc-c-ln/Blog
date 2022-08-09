@@ -1,7 +1,16 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 
-export default function SearchBar() {
+interface searchBarProps {
+  postList: never[];
+  totalPageNum: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setTotalPageNum: React.Dispatch<React.SetStateAction<number>>;
+  setPostList: React.Dispatch<React.SetStateAction<never[]>>;
+}
+
+export default function SearchBar(props: searchBarProps) {
   const keywordRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
 
@@ -18,6 +27,9 @@ export default function SearchBar() {
         },
       })
       .then((res) => {
+        props.setTotalPageNum(res.data.cnt);
+
+        // setCurrentPage(1);
         console.log(res.data);
       });
   };
@@ -41,5 +53,3 @@ export default function SearchBar() {
     </div>
   );
 }
-
-// page 버튼 누를 때는, 별도의 state( 직전에 검색한 내용을 바탕으로 한 내용물을 줘야 한다)
