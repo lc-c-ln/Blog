@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 
-interface searchBarProps {
+interface props {
   postList: never[];
   totalPageNum: number;
   currentPage: number;
@@ -10,7 +10,7 @@ interface searchBarProps {
   setPostList: React.Dispatch<React.SetStateAction<never[]>>;
 }
 
-export default function SearchBar(props: searchBarProps) {
+export default function SearchBar(props: props| any) {
   const keywordRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
 
