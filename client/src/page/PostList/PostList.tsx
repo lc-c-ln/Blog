@@ -30,7 +30,9 @@ export default function PostList() {
   const posts = postList.map((post) => {
     return (
       <li key={post["id"]}>
+        <Link to={"/post/"+post["id"]}>
         {post["title"]}
+        </Link>
         {post["writer"]}
         {post["reg_date"]}
         댓글 수: {post["comment_cnt"]}

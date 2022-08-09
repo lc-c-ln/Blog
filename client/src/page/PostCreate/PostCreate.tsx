@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function PostCreate() {
   const [inputs, setInputs] = useState({
@@ -9,28 +10,27 @@ export default function PostCreate() {
     content: "",
     hashtag: "",
   });
+  const navigate = useNavigate()
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: any) => {
     const { value, name } = e.target;
     setInputs({
       ...inputs,
       [name]: value,
     });
-    console.log({...inputs});
   };
 
   const createPostHandle = (e: FormEvent) => {
     e.preventDefault(); 
     axios.post(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
       ...inputs
-    }).then((res)=>{
-      console.log(res);
-    }
-    );
+    })
+    navigate("/")
   };
+
   return (
     <div>
-      <form action="" onSubmit={createPostHandle}>
+      <form action="" onSubmit={createPostHandle} >
         <label>
           제목:
           <input type="text" name="title" required onChange={onChange} />
@@ -45,13 +45,13 @@ export default function PostCreate() {
         </label>
         <label>
           내용 :
-          <input type="text" name="content" required onChange={onChange} />
+          <textarea name="content" required onChange={onChange} />
         </label>
         <label>
           해쉬태그:
           <input type="text" name="hashtag" onChange={onChange} />
         </label>
-        <button></button>
+        <button>글 등록하기</button>
       </form>
     </div>
   );
