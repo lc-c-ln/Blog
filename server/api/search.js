@@ -15,9 +15,9 @@ router.get("/", (req, res) => {
         where (id in (
             select post_id 
             from post_tag 
-            where (tag_id in (select id from tag where (name like '%${keyword}%')))));
+            where (tag_id in (select id from tag where (name like '%${keyword}%'))))) order by id desc;
         `
-        : `select id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from post where ${category} like '%${keyword}%'`;
+        : `select id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from post where ${category} like '%${keyword}%' order by id desc`;
     connection.query(sql, (err, rows) => {
       if (err) res.send(err);
       else {
