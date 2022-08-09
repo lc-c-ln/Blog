@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
   const con = pool.getConnection((err, connection) => {
     const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}")`;
     connection.query(sql, (err, rows) => {
-      if (err) 
+      if (err)
         console.log(err);
   
       res.status(200).send("Post has created")
