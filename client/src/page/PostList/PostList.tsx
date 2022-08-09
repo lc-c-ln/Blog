@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import SearchBar from "../../component/PostList/SearchBar";
+import PageButtons from "../../component/PostList/PageButtons";
 export default function PostList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(0);
@@ -15,7 +16,7 @@ export default function PostList() {
         },
       })
       .then((res) => {
-        setTotalPageNum(Math.floor((res.data.cnt[0].cnt - 1) / 10) + 1);
+        setTotalPageNum(Math.floor((res.data.cnt - 1) / 10) + 1);
         setPostList(res.data.page);
       });
   }, [currentPage]);
@@ -32,58 +33,16 @@ export default function PostList() {
       </li>
     );
   });
-
-  const pageButtons = [...Array(10)].map((num, idx) => {
-    const page = Math.floor(currentPage / 10) * 10 + idx + 1;
-    return (
-      <li
-        key={page}
-        style={{
-          fontWeight: page === currentPage ? "bolder" : "",
-          display: `${page <= totalPageNum ? "inline-block" : "none"}`,
-        }}
-        onClick={() => {
-          setCurrentPage(page);
-        }}
-      >
-        {page}
-      </li>
-    );
-  });
-
+  
   return (
     <main>
       <h1>게시판이요</h1>
-      <SearchBar/>
+      <SearchBar />
       <Link to="/post/new">새 글 쓰기</Link>
       <div>
         <ul>{posts}</ul>
-        {currentPage}
       </div>
-      <ul>
-        <li
-          onClick={() => {
-            setCurrentPage(Math.floor(currentPage / 10) * 10 - 1);
-          }}
-          style={{ display: currentPage > 10 ? "inline-block" : "none" }}
-        >
-          Prev
-        </li>
-        {pageButtons}
-        <li
-          onClick={() => {
-            setCurrentPage(Math.floor(currentPage / 10) * 10 + 11);
-          }}
-          style={{
-            display:
-              Math.floor(currentPage / 10) * 10 + 9 <= totalPageNum
-                ? "inline-block"
-                : "none",
-          }}
-        >
-          Next
-        </li>
-      </ul>
+        <PageButtons currentPage={currentPage} totalPageNum={totalPageNum} setCurrentPage={setCurrentPage}/>
     </main>
   );
 }

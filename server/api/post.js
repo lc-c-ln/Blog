@@ -16,6 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  //  hashtag 관련 내용 안 넣었음
   password = crypto.createHash("sha256").update(req.body.password).digest("base64");
   const con = pool.getConnection((err, connection) => {
     const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}")`;

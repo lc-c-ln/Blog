@@ -19,8 +19,7 @@ export default function PostCreate() {
     console.log(inputs);
   };
   const createPostHandle = (e: FormEvent) => {
-    e.preventDefault();
-    
+    e.preventDefault(); 
     axios.post(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
       ...inputs
     }).then((res)=>{
