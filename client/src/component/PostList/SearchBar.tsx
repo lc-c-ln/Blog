@@ -20,7 +20,7 @@ export default function SearchBar() {
       });
     }
   };
-  
+
   const searchHandler = (e: React.FormEvent) => {
     e.preventDefault();
     axios
@@ -30,6 +30,7 @@ export default function SearchBar() {
         },
       })
       .then((res) => {
+        
         console.log(res);
       });
   };
@@ -53,3 +54,4 @@ export default function SearchBar() {
     </div>
   );
 }
+

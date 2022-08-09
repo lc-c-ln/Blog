@@ -16,6 +16,7 @@ app.use('/comment', require('./api/comment'))
 app.use('/search', require('./api/search'))
 app.use('/postlist', require('./api/postlist'))
 
+
 app.get("/",(req,res)=>{
     res.send('ok')
 })
