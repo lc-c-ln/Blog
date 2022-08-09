@@ -28,6 +28,7 @@ export default function PostList() {
         댓글 수: {post["comment_cnt"]}
         조회 수: {post["view_cnt"]}
         좋아요 수: {post["like_cnt"]}
+        
       </li>
     );
   });
@@ -53,7 +54,6 @@ export default function PostList() {
     <main>
       <h1>게시판이요</h1>
       <div>
-        {process.env.REACT_APP_API_SERVER_URL}
         <ul>{posts}</ul>
         {currentPage}
       </div>
