@@ -55,14 +55,7 @@ export default function PostList() {
   return (
     <main>
       <h1>게시판이요</h1>
-      <SearchBar 
-        postList={postList}
-        totalPageNum={totalPageNum}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        setTotalPageNum={setTotalPageNum}
-        setPostList={setPostList}
-      />
+     
       <Link to="/post/new">새 글 쓰기</Link>
       <div>
         <ul>{posts}</ul>

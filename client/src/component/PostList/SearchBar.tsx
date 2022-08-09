@@ -5,6 +5,10 @@ interface props {
   postList: never[];
   totalPageNum: number;
   currentPage: number;
+  category:string;
+  keyword:string;
+  setCategory:React.Dispatch<React.SetStateAction<string>>;
+  setKeyword:React.Dispatch<React.SetStateAction<string>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setTotalPageNum: React.Dispatch<React.SetStateAction<number>>;
   setPostList: React.Dispatch<React.SetStateAction<never[]>>;
@@ -16,23 +20,28 @@ export default function SearchBar(props: props) {
 
   const searchHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    axios
-      .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
-        params: {
-          page: 1,
-          keyword: keywordRef.current ? keywordRef.current.value : "",
-          category: categoryRef.current
-            ? categoryRef.current.selectedOptions[0].value
-            : "",
-        },
-      })
-      .then((res) => {
-        props.setTotalPageNum(res.data.cnt);
-
-        // setCurrentPage(1);
-        console.log(res.data);
-      });
+    props.setKeyword(keywordRef.current ? keywordRef.current.value : "")
+    props.setCategory(categoryRef.current
+      ? categoryRef.current.selectedOptions[0].value
+      : "")
+    props.setCurrentPage(1)  
+    // axios
+    //   .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
+    //     params: {
+    //       page: 1,
+    //       keyword: keywordRef.current ? keywordRef.current.value : "",
+    //       category: categoryRef.current
+    //         ? categoryRef.current.selectedOptions[0].value
+    //         : "",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     props.setCurrentPage(1)
+    //     props.setTotalPageNum(res.data.totalPageCnt);
+    //     props.setPostList(res.data.posts);
+    //   });
   };
+
   return (
     <div>
       <form onSubmit={searchHandler}>
