@@ -2,12 +2,6 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 
 export default function SearchBar() {
-  const [searchKeyword, setSearchKeyword] = useState({
-    category: "title",
-    keyword: "",
-    page: 1,
-  });
-
   const keywordRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
 
@@ -26,13 +20,6 @@ export default function SearchBar() {
       .then((res) => {
         console.log(res.data);
       });
-    setSearchKeyword({
-      page: 1,
-      keyword: keywordRef.current ? keywordRef.current.value : "",
-      category: categoryRef.current
-        ? categoryRef.current.selectedOptions[0].value
-        : "",
-    });
   };
   return (
     <div>
