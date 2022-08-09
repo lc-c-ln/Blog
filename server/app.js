@@ -1,15 +1,12 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
-const bodyParser = require('body-parser')
 global.__rootDir = path.resolve(__dirname)
 const PORT = 5000
 
 const app = express();
 app.use(express.urlencoded({extended:false}))
-
 app.use(cors())
-app.use(bodyParser.json())
 app.use('/post', require('./api/post'))
 app.use('/tag', require('./api/tag'))
 app.use('/comment', require('./api/comment'))

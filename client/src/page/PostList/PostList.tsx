@@ -19,16 +19,15 @@ export default function PostList() {
   // 검색 창에 있는 데이터가 바뀌어도, 보내기 누른거 아니면, state 변경하지 않아야 함.=> 왜? 그럼, 페이지 이동할 때, 변경된 값으로 검색될수도 있기 때문
   
   useEffect(() => {
-    // 
     axios
-      .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
+      .get(`//${process.env.REACT_APP_API_SERVER_URL}/postlist`, {
         params: {
           page: currentPage,
         },
       })
       .then((res) => {
         setTotalPageNum(Math.floor((res.data.cnt - 1) / 10) + 1);
-        setPostList(res.data.page);
+        setPostList(res.data.posts);
       });
   }, [currentPage]);
 

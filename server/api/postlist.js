@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   pool.getConnection((err, connection) => {
     const sql = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from POST LIMIT 10 OFFSET ${(page-1)*10}`;
     connection.query(sql, (err, rows) => {
-        res.json({page:rows, cnt:rows.length})
+        res.json({posts:rows, cnt:rows.length})
     });
     connection.release();
   });
