@@ -25,10 +25,8 @@ export default function PostCreate() {
       ...inputs
     }).then((res)=>{
       console.log(res);
-      
     }
     );
-
   };
   return (
     <div>

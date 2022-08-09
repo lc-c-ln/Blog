@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
+import SearchBar from "../../component/PostList/SearchBar";
 export default function PostList() {
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(0);
-  const [postList, setPostList] = useState([]); 
+  const [postList, setPostList] = useState([]);
 
   useEffect(() => {
     axios
@@ -28,7 +29,6 @@ export default function PostList() {
         댓글 수: {post["comment_cnt"]}
         조회 수: {post["view_cnt"]}
         좋아요 수: {post["like_cnt"]}
-        
       </li>
     );
   });
@@ -39,6 +39,7 @@ export default function PostList() {
       <li
         key={page}
         style={{
+          fontWeight: page === currentPage ? "bolder" : "",
           display: `${page <= totalPageNum ? "inline-block" : "none"}`,
         }}
         onClick={() => {
@@ -53,6 +54,8 @@ export default function PostList() {
   return (
     <main>
       <h1>게시판이요</h1>
+      <SearchBar/>
+      <Link to="/post/new">새 글 쓰기</Link>
       <div>
         <ul>{posts}</ul>
         {currentPage}
