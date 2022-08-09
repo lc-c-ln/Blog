@@ -10,7 +10,7 @@ interface props {
   setPostList: React.Dispatch<React.SetStateAction<never[]>>;
 }
 
-export default function SearchBar(props: props| any) {
+export default function SearchBar(props: props) {
   const keywordRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
 
