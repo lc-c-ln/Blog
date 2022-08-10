@@ -7,8 +7,8 @@ const router = express.Router();
 router.get("/", (req, res) => {
   const idx = req.query["post_id"];
   pool.getConnection((err, connection) => {
-    const sql = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt  from POST where (id=${idx})`;
-
+    const sql = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt, content  from POST where (id=${idx})`;
+    
     // + comment 관련 데이터랑 해시태그 관련 데이터도 추가해야 함
     connection.query(sql, (err, rows) => {
       res.json(rows[0]);

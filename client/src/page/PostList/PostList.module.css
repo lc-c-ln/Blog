@@ -1,0 +1,23 @@
+.Post {
+    text-align: left;
+    margin: 0 15%;
+}
+.Post li {
+    list-style-type: none;
+    border-bottom: black solid 1px;
+    width: 1024px;
+}
+.Post li div{
+    display: inline-block  ;
+}
+
+.frontSection {
+    width: 70%;
+}
+.Post li div p{
+    /* display: inline-block; */
+    font: 100;
+    color: gray;
+    line-height: 0;
+}
+
