@@ -7,5 +7,8 @@
 }  
 
 .Post .Content{
-    border: 1px solid gray;
+    border-bottom: 1px solid gray;
+    border-top:  1px solid gray;
+    padding: 10px;
+    margin: 10px 0;
 }

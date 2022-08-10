@@ -25,7 +25,8 @@ export default function CommentSection(props: props) {
         password: password,
       })
       .then((res) => {
-        console.log(res);
+        getCommentList()
+        // console.log(res);
       });
   };
 
@@ -41,7 +42,9 @@ export default function CommentSection(props: props) {
         setCommentList(res.data);
       });
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getCommentList()
+  }, []);
 
   const comments = commentList.map((comment) => {
     return <Comment comment={comment} postId={props.postId} />;

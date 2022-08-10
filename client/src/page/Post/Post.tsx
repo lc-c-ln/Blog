@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "../../component/Post/CommentSection";
 import styles from "./post.module.css";
 export default function Post() {
   const param = useParams();
   const post_Id = param.post_id !== undefined ? parseInt(param.post_id) : 0;
-
+  const nav =useNavigate()
   const [postData, setPostData] = useState({
     title: "",
     writer: "",
@@ -32,10 +32,38 @@ export default function Post() {
   }, []);
   console.log(postData);
 
+  const updatePost = () => {
+    // const password = prompt("비밀번호를 입력하세요")
+    // axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/post`,)
+  }
+
+  const [passwordChecker, setPasswordChecker] = useState(false)
+  const deletePost = () => {
+    const password = prompt("비밀번호를 입력하세요")
+    axios.delete(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
+      data: {
+        id: post_Id,
+        password: password
+      }
+    }).then((res)=>{
+      if (res.status == 200) {
+        alert("게시물이 삭제되었습니다.")
+        nav("/")
+      } else {
+        alert("비밀번호가 틀렸습니다.")
+      }
+    })
+
+  }
+
   return (
     <div className={styles.Post}>
       <div className="">
         <h2>{postData.title}</h2>
+        <div>
+          <button onClick={updatePost}>수정</button>
+          <button onClick={deletePost}>삭제</button>
+        </div>
         <p>
           작성자: {postData.writer}
           <br />
@@ -44,7 +72,6 @@ export default function Post() {
       </div>
       <div className={styles.Content}>{postData.content}</div>
       <div>
-        댓글 
 
         <CommentSection postId={post_Id} />
       </div>
