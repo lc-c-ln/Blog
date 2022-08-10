@@ -1,0 +1,9 @@
+.ParentComment {
+}
+.ChildCommentForm {
+    width: 80%;
+}
+.ChildComment {
+    width: 80%;
+    background-color: red;
+}

@@ -12,8 +12,7 @@ export default function PostList() {
   const [category, setCategory] = useState("title")
   const [keyword, setKeyword] = useState("")
 
-  useEffect(() => {    
-    console.log(category,currentPage,keyword);
+  useEffect(() => {
     
     axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
       params: {
@@ -26,7 +25,7 @@ export default function PostList() {
       setPostList(res.data.posts);
     });
   }, [category, currentPage, keyword]);
-
+ 
   const posts = postList.map((post) => {
     return (
       <li key={post["id"]}>
