@@ -13,10 +13,11 @@ interface childCommentProps {
 
 const ChildComment = ({ comment }: childCommentProps) => {
   return (
-    <li key={comment["id"]} className={styles.ChildComment}>
-      {comment["content"]}
-      {comment["content"]}
-      {comment["writer"]}
+    <li key={comment["id"]} className={styles.Comment}>
+      <div>
+        ㄴ<p>{comment["content"]}</p>
+        <p>작성자: {comment["writer"]}</p>
+      </div>
     </li>
   );
 };
@@ -58,10 +59,13 @@ export default function Comment({ comment, postId }: props) {
   });
 
   return (
-    <li key={comment["id"]} className={styles.ParentComment}>
-      {comment["content"]}
-      {comment["content"]}
-      {comment["writer"]}
+    <li key={comment["id"]} className={styles.Comment}>
+      <div>
+        <p>{comment["content"]}</p>
+        <p>
+          작성자: {comment["writer"]}
+        </p>
+      </div>
       <ul>{childCommets}</ul>
 
       <form
@@ -69,14 +73,21 @@ export default function Comment({ comment, postId }: props) {
         id={comment["id"]}
         className={styles.ChildCommentForm}
       >
-        <input type="text" name="content" placeholder="댓글을 입력해주세요" />
         <input
+          className={styles.Content}
+          type="text"
+          name="content"
+          placeholder="댓글을 입력해주세요"
+        />
+        <input
+          className={styles.WriterPassword}
           type="text"
           name="writer"
           placeholder="작성자의 아이디를 입력하세요"
         />
         <input
-          type="text"
+          className={styles.WriterPassword}
+          type="password"
           name="password"
           placeholder="수정/삭제를 위한 비밀번호를 입력하세요"
         />

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useState,useEffect } from 'react'
 import Comment from './Comment'
+import styles from './commentSection.module.css'
+
 interface props {
   postId : number
 }
@@ -42,14 +44,14 @@ export default function CommentSection(props:props) {
       <Comment comment={comment} postId={props.postId}/>
     )
   })
-  
+
   return (
-    <div>
+    <div className={styles.CommentSection}>
     <form onSubmit={createOrdinaryComment}>
-      <input type="text" name="content" placeholder="댓글을 입력해주세요"/>
-      <input type="text" name="writer" placeholder="작성자의 아이디를 입력하세요"/>
-      <input type="text" name="password" placeholder="수정/삭제를 위한 비밀번호를 입력하세요"/>
-      <button>댓글</button>
+      <input className={styles.Content} type="text" name="content" placeholder="댓글을 입력해주세요"/>
+      <input className={styles.WriterPassword} type="text" name="writer" placeholder="작성자의 아이디를 입력하세요"/>
+      <input className={styles.WriterPassword} type="password" name="password" placeholder="수정/삭제를 위한 비밀번호를 입력하세요"/>
+      <button>댓글 달기</button>
     </form>
     <ul>
     {comments}

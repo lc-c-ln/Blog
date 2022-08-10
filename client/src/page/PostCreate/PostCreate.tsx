@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import styles from './postCreate.module.css'
 
 export default function PostCreate() {
   const [inputs, setInputs] = useState({
@@ -30,21 +31,21 @@ export default function PostCreate() {
   };
 
   return (
-    <div>
+    <div className={styles.Container}>
       <form action="" onSubmit={createPostHandle} >
         <label>
           제목:
           <input type="text" name="title" required onChange={onChange} />
         </label>
-        <label>
+        <label className={styles.inline}>
           작성자:
           <input type="text" name="writer" required onChange={onChange} />
         </label>
-        <label>
+        <label className={styles.inline}>
           비밀번호:
           <input type="password" name="password" required onChange={onChange} />
         </label>
-        <label>
+        <label className={styles.Content}>
           내용 :
           <textarea name="content" required onChange={onChange} />
         </label>

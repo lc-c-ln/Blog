@@ -1,10 +1,30 @@
-.ParentComment {
-    
-}
 .ChildCommentForm {
-    width: 80%;
+    width: 100%;
+    background-color: rgb(201, 252, 235);
+    padding: 10px;
+
 }
-.ChildComment {
-    width: 80%;
-    background-color: red;
+
+.ChildCommentForm .WriterPassword {
+    width: 20%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.ChildCommentForm .Content {
+    width: 95%;
+}
+
+.Comment {
+    list-style-type: none;
+    box-shadow: 1px 1px 1px 1px gray;
+    margin: 2px;
+}
+
+.Comment p {
+    display: inline-block;
+}
+
+.Comment p:first-child {
+    width: 60%;
 }

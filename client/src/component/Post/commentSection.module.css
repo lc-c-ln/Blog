@@ -1,0 +1,16 @@
+
+.CommentSection form {
+    width: 100%;
+    background-color: rgb(201, 252, 235);
+    padding: 10px;
+
+}
+.CommentSection form .WriterPassword{
+    width: 20%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.CommentSection form .Content{
+    width: 95%;
+}
