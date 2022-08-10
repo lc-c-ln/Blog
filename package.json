@@ -1,0 +1,21 @@
+{
+  "name": "nts-08__-goddhqj8000",
+  "version": "1.0.0",
+  "description": "엔테크 서비스 SW 개발 - 사전 과제",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd server && node app.js && cd .. & cd client && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiperChang/nts-08__-goddhqj8000.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PiperChang/nts-08__-goddhqj8000/issues"
+  },
+  "homepage": "https://github.com/PiperChang/nts-08__-goddhqj8000#readme"
+}
+

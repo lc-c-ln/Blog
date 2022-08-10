@@ -19,7 +19,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log(req.body.parent_comment_id);
   const con = pool.getConnection((err, connection) => {
     const sql = req.body.parent_comment_id
       ? `insert into comment(post_id, parent_comment_id, writer, content, password) values(${req.body.post_id}, "${req.body.parent_comment_id}","${req.body.writer}","${req.body.content}","${req.body.password}")`
