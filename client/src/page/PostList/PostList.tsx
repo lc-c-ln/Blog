@@ -9,7 +9,8 @@ export default function PostList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(0);
   const [postList, setPostList] = useState([]);
-
+  const [totalPostCnt, setTotalPostCnt] = useState(0);
+  const [totalCommentCnt, setCommentCnt] = useState(0);
   const [category, setCategory] = useState("title");
   const [keyword, setKeyword] = useState("");
 
@@ -28,21 +29,24 @@ export default function PostList() {
       });
   }, [category, currentPage, keyword]);
 
-  var today = new Date()
-  today.setDate(today.getDate()-3)
+  useEffect(() => {
+    axios
+      .get(`//${process.env.REACT_APP_API_SERVER_URL}/postlist`)
+      .then((res) => {
+        setTotalPostCnt(res.data.postCnt);
+        setCommentCnt(res.data.commentCnt);
+      });
+  }, []);
+  var today = new Date();
+  today.setDate(today.getDate() - 3);
 
   const posts = postList.map((post) => {
     var createdTime = new Date(post["reg_date"]);
-    if (today > createdTime) {
-      console.log("old");
-    } else {
-      console.log("new");      
-    }
-    
     return (
       <li key={post["id"]}>
         <div className={styles.frontSection}>
-          <Link to={"/post/" + post["id"]}>{post["title"]}</Link> {today>createdTime? "old":"new"}
+          <Link to={"/post/" + post["id"]}>{post["title"]}</Link>{" "}
+          {today > createdTime ? "old" : "new"}
           <p className={styles.writer}> 작성자: {post["writer"]}</p>
           <p>작성일시: {post["reg_date"]}</p>
         </div>
@@ -57,7 +61,8 @@ export default function PostList() {
 
   return (
     <main>
-      <h1>게시판이요</h1>
+      <h1>게시판이요</h1>총 게시물 수 : {totalPostCnt} 총 댓글 수:
+      {totalCommentCnt}
       <SearchBar
         keyword={keyword}
         setKeyword={setKeyword}

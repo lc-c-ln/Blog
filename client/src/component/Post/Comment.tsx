@@ -91,7 +91,7 @@ export default function Comment({ comment, postId }: props) {
           name="password"
           placeholder="수정/삭제를 위한 비밀번호를 입력하세요"
         />
-        <button>댓글</button>
+        <button>댓글 달기</button>
       </form>
     </li>
   );

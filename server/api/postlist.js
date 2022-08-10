@@ -5,14 +5,16 @@ const router = express.Router();
 
 // 전체 페이지 개수랑 현재 페이지의 10개 정보 줘야 함.
 router.get("/", (req, res) => {
-  const page  = req.query["page"];
   pool.getConnection((err, connection) => {
-    const sql = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from POST LIMIT 10 OFFSET ${(page-1)*10}`;
-    connection.query(sql, (err, rows) => {
-        res.json({posts:rows, cnt:rows.length})
+    const sql = `SELECT * from POST`;
+    connection.query(sql, (err, r1) => {
+      const commentsql = `SELECT * from COMMENT`;
+      connection.query(commentsql, (err, r2) => {
+        res.json({ postCnt: r1.length, commentCnt: r2.length });
+      });
     });
     connection.release();
   });
 });
 
-module.exports= router;
+module.exports = router;
