@@ -28,8 +28,6 @@ export default function PostUpdate() {
         });
       });
   }, []);
-  console.log(inputs);
-
 
   const navigate = useNavigate()
 
@@ -42,9 +40,7 @@ export default function PostUpdate() {
   };
 
   const updatePostHandle = (e: FormEvent) => {
-    e.preventDefault(); 
-    console.log({...inputs}, "맞아");
-    
+    e.preventDefault();     
     axios.put(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
       ...inputs
     }).then(()=>

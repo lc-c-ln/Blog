@@ -40,13 +40,22 @@ export default function PostList() {
   var today = new Date();
   today.setDate(today.getDate() - 3);
 
+  // view_cnt api
+  const updateViewCnt = (post_id:number) => {
+    axios.put(`//${process.env.REACT_APP_API_SERVER_URL}/counter/view`,{
+      id:post_id
+    })
+    console.log("일단");
+    
+  }
+
   const posts = postList.map((post) => {
     var createdTime = new Date(post["reg_date"]);
     return (
       <li key={post["id"]}>
         <div className={styles.frontSection}>
-          <Link to={"/post/" + post["id"]}>{post["title"]}</Link>{" "}
-          {today > createdTime ? "old" : "new"}
+          <Link to={"/post/" + post["id"]} onClick={()=>updateViewCnt(post["id"])}>{post["title"]}</Link>{" "}
+          {today > createdTime ? "" : "New"}
           <p className={styles.writer}> 작성자: {post["writer"]}</p>
           <p>작성일시: {post["reg_date"]}</p>
         </div>

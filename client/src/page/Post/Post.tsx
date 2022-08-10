@@ -31,8 +31,6 @@ export default function Post() {
       });
   }, []);
 
-  console.log(postData);
-
   const updatePost = () => {
     const password = prompt("수정을 위한 비밀번호를 입력하세요")
     axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/auth`, {

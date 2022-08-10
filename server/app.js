@@ -15,6 +15,7 @@ app.use('/comment', require('./api/comment'))
 app.use('/search', require('./api/search'))
 app.use('/postlist', require('./api/postlist'))
 app.use('/auth', require('./api/auth'))
+app.use('/counter', require('./api/counter'))
 
 
 app.get("/",(req,res)=>{

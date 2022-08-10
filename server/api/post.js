@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   const idx = req.query["post_id"];
   pool.getConnection((err, connection) => {
     const sql = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt, content  from POST where (id=${idx})`;
-    // + comment 관련 데이터랑 해시태그 관련 데이터도 추가해야 함
+    // + comment 관련 데이터랑 해시태그 관련 데이터 추가해야 함
     connection.query(sql, (err, rows) => {
       res.json(rows[0]);
     });
@@ -22,7 +22,6 @@ router.post("/", (req, res) => {
     .createHash("sha256")
     .update(req.body.password)
     .digest("base64");
-  // salt 추가할 것
   const con = pool.getConnection((err, connection) => {
     const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}")`;
     connection.query(sql, (err, rows) => {
