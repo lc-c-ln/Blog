@@ -24,8 +24,9 @@ export default function PostCreate() {
     e.preventDefault(); 
     axios.post(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
       ...inputs
-    })
-    navigate("/")
+    }).then(()=>
+      navigate("/")
+    )
   };
 
   return (
