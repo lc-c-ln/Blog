@@ -6,6 +6,7 @@ import PostCreate from './page/PostCreate/PostCreate';
 
 import PostList from './page/PostList/PostList';
 import Post from './page/Post/Post';
+import PostUpdate from './page/PostUpdate/PostUpdate';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
       <Route path="/post/:post_id" element={<Post />}/>
+      <Route path="/post/update/:post_id" element={<PostUpdate />}/>
       <Route path="/" element={<PostList />} />
         <Route path="/post/new" element={<PostCreate />} />
       </Routes>

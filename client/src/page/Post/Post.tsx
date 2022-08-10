@@ -6,7 +6,7 @@ import styles from "./post.module.css";
 export default function Post() {
   const param = useParams();
   const post_Id = param.post_id !== undefined ? parseInt(param.post_id) : 0;
-  const nav =useNavigate()
+  const nav = useNavigate()
   const [postData, setPostData] = useState({
     title: "",
     writer: "",
@@ -30,11 +30,23 @@ export default function Post() {
         });
       });
   }, []);
+
   console.log(postData);
 
   const updatePost = () => {
-    // const password = prompt("비밀번호를 입력하세요")
-    // axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/post`,)
+    const password = prompt("수정을 위한 비밀번호를 입력하세요")
+    axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/auth`, {
+      params: {
+        id: post_Id,
+        password: password
+      }
+    }).then((res)=>{
+      if (res.status == 200) {
+        nav(`/post/update/${post_Id}`)
+      } else {
+        alert("비밀번호가 틀렸습니다.")
+      }
+    })
   }
 
   const [passwordChecker, setPasswordChecker] = useState(false)
@@ -45,7 +57,7 @@ export default function Post() {
         id: post_Id,
         password: password
       }
-    }).then((res)=>{
+    }).then((res) => {
       if (res.status == 200) {
         alert("게시물이 삭제되었습니다.")
         nav("/")
@@ -75,7 +87,7 @@ export default function Post() {
 
         <CommentSection postId={post_Id} />
       </div>
-      <ul>{/* 이것도 버튼이랑 */}각 댓글 보이기 + 각 댓글에 댓글 달기 버튼</ul>
+      <ul></ul>
     </div>
   );
 }

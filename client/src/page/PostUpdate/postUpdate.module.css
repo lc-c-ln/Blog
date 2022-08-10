@@ -1,0 +1,23 @@
+.Container form {
+    width: 1024px ;
+    margin:auto;
+    padding: 100px;
+    text-align: left;
+}
+.Container form label {
+    display: block;
+}
+
+.Container form label input{
+    width: 100%;
+}
+.Container form .Content textarea{
+    width: 100%;
+    height: 300px;
+}
+
+.Container form .inline {
+    display: inline-block;
+    width: 20%;
+    padding-right: 100px;
+}
