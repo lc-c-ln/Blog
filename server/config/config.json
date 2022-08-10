@@ -5,16 +5,10 @@
     "database": "nts",
     "host": "127.0.0.1"
   },
-  "test": {
-    "user": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1"
-  },
   "production": {
-    "user": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1"
+    "user": "endubxctj1tjgndu",
+    "password": "gf929o68hggdbzmv",
+    "database": "r7oqaw3pxh8is1ti",
+    "host": "t07cxyau6qg7o5nz.cbetxkdyhwsb.us-east-1.rds.amazonaws.com"
   }
 }

@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install":"cd server && npm install && cd .. && cd client && npm install",
+    "build":"cd client && npm run build && mv build ../server/build",
     "start:server": "cd server && node app.js",
-    "start:client": "cd .. & cd client && npm run start"
+    "start:client": "cd client && npm run start"
   },
   "repository": {
     "type": "git",
@@ -20,4 +21,3 @@
   },
   "homepage": "https://github.com/PiperChang/nts-08__-goddhqj8000#readme"
 }
-

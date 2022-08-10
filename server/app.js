@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
+
 global.__rootDir = path.resolve(__dirname)
 const PORT = 5000
 
@@ -19,7 +20,7 @@ app.use('/counter', require('./api/counter'))
 
 
 app.get("/",(req,res)=>{
-    res.send('ok')
+    res.sendFile(__dirname + '/build/index.html')
 })
 
 const server = app.listen(PORT, () => {
