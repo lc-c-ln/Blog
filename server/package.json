@@ -8,6 +8,7 @@
     "sequelize": "^6.21.3"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.19"
   },
   "name": "server",

@@ -18,6 +18,9 @@ app.use('/postlist', require('./api/postlist'))
 app.use('/auth', require('./api/auth'))
 app.use('/counter', require('./api/counter'))
 
+// deploy
+app.use(express.static("build"))
+
 
 app.get("/",(req,res)=>{
     res.sendFile(__dirname + '/build/index.html')

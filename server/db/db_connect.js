@@ -1,8 +1,9 @@
 const mysql = require("mysql2")
 const config = require('../config/config')
 
+console.log(process.env.NODE_ENV);
 const pool = mysql.createPool({
-    ...config["development"],
+    ...config[process.env.NODE_ENV],
     connectionLimit:20,
 });
 
