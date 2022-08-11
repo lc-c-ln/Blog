@@ -3,7 +3,7 @@ const path = require('path')
 const cors = require('cors')
 
 global.__rootDir = path.resolve(__dirname)
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 
 const app = express();
 
@@ -20,7 +20,6 @@ app.use('/counter', require('./api/counter'))
 
 // deploy
 app.use(express.static("build"))
-
 
 app.get("/",(req,res)=>{
     res.sendFile(__dirname + '/build/index.html')
