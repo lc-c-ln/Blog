@@ -1,9 +1,8 @@
 const mysql = require("mysql2");
 const config = require("../config/config");
-require("dotenv").config();
-
+const env = process.env.NODE_ENV || "development"
 const pool = mysql.createPool({
-  ...config[process.env.NODE_ENV],
+  ...config[env],
   connectionLimit: 20,
 });
 
