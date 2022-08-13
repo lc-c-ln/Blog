@@ -4,7 +4,6 @@
   "description": "엔테크 서비스 SW 개발 - 사전 과제",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "install":"cd server && npm install && cd .. && cd client && npm install",
     "build":"cd client && npm run build && mv build ../server",
     "start": "cd server && node app.js"
