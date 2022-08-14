@@ -4,9 +4,8 @@
   "description": "엔테크 서비스 SW 개발 - 사전 과제",
   "main": "index.js",
   "scripts": {
-    "install":"cd server && npm install && cd .. && cd client && npm install",
-    "build":"rm -rf /server/build && cd client && npm run build && mv build ../server && ls",
-    "start": "cd server && node app.js"
+    "heroku-prebuild":"cd client && npm ci && npm run build && mv build ../server ",
+    "start" : "cd server && npm ci && node app.js"
   },
   "repository": {
     "type": "git",
