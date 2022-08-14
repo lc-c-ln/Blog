@@ -3,6 +3,7 @@ const pool = require("../db/db_connect");
 const crypto = require("crypto");
 
 const router = express.Router();
+
 router.get("/", (req, res) => {
     const password = crypto
       .createHash("sha256")
