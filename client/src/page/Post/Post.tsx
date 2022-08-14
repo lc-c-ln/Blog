@@ -47,7 +47,6 @@ export default function Post() {
     })
   }
 
-  const [passwordChecker, setPasswordChecker] = useState(false)
   const deletePost = () => {
     const password = prompt("비밀번호를 입력하세요")
     axios.delete(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
