@@ -10,7 +10,6 @@ router.post("/", (req, res) => {
     connection.query(searchsql, (err, rows) => {
       if (rows.length != 0) {
         const sql = `insert into post_tag(post_id, tag_id) values(${req.body.post_id},${rows[0]["id"]});`;
-        console.log(rows.length);
         connection.query(sql, (err, rows) => {
           res.status(200).send("Existed Tag has added");
         });
