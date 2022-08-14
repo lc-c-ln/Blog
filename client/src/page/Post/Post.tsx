@@ -39,7 +39,7 @@ export default function Post() {
         password: password
       }
     }).then((res)=>{
-      if (res.status == 200) {
+      if (res.status === 200) {
         nav(`/post/update/${post_Id}`)
       } else {
         alert("비밀번호가 틀렸습니다.")
@@ -56,7 +56,7 @@ export default function Post() {
         password: password
       }
     }).then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         alert("게시물이 삭제되었습니다.")
         nav("/")
       } else {
