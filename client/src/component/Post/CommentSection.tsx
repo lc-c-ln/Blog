@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { getComments } from "../../api/api";
 import Comment from "./Comment";
 import styles from "./commentSection.module.css";
+
 
 interface props {
   postId: number;
@@ -26,18 +28,11 @@ export default function CommentSection(props: props) {
       })
       .then((res) => {
         getCommentList()
-        // console.log(res);
       });
   };
 
   const getCommentList = () => {
-    axios
-      .get(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
-        params: {
-          post_id: props.postId,
-          page: 1,
-        },
-      })
+    getComments(props.postId)
       .then((res) => {
         setCommentList(res.data);
       });

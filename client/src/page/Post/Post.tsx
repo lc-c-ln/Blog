@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "../../component/Post/CommentSection";
 import styles from "./post.module.css";
+
 export default function Post() {
   const param = useParams();
   const post_Id = param.post_id !== undefined ? parseInt(param.post_id) : 0;
@@ -41,7 +42,7 @@ export default function Post() {
     }).then((res)=>{
       if (res.status === 200) {
         nav(`/post/update/${post_Id}`)
-      } else {
+      } else {  
         alert("비밀번호가 틀렸습니다.")
       }
     })
@@ -81,7 +82,6 @@ export default function Post() {
       </div>
       <div className={styles.Content}>{postData.content}</div>
       <div>
-
         <CommentSection postId={post_Id} />
       </div>
       <ul></ul>

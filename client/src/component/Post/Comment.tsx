@@ -2,25 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./comment.module.css";
 
+import { DeletedComment, BasicComment } from "../Comment/CommentTypes";
+
 interface props {
   comment: never;
   postId: number;
 }
-
-interface childCommentProps {
-  comment: never;
-}
-
-const ChildComment = ({ comment }: childCommentProps) => {
-  return (
-    <li key={comment["id"]} className={styles.Comment}>
-      <div>
-        ㄴ<p>{comment["content"]}</p>
-        <p>작성자: {comment["writer"]}</p>
-      </div>
-    </li>
-  );
-};
 
 export default function Comment({ comment, postId }: props) {
   const [childCommentList, setChildCommentList] = useState([]);
@@ -55,17 +42,17 @@ export default function Comment({ comment, postId }: props) {
   };
 
   const childCommets = childCommentList.map((comment) => {
-    return <ChildComment comment={comment} />;
+    return comment["deleted"] ? (
+      <DeletedComment comment={comment} />
+    ) : (
+      <BasicComment comment={comment} />
+    );
   });
 
   return (
-    <li key={comment["id"]} className={styles.Comment}>
-      <div>
-        <p>{comment["content"]}</p>
-        <p>
-          작성자: {comment["writer"]}
-        </p>
-      </div>
+    <>
+    {comment["deleted"] ? <DeletedComment comment={comment}/>: <BasicComment comment={comment}/>}
+
       <ul>{childCommets}</ul>
 
       <form
@@ -93,6 +80,6 @@ export default function Comment({ comment, postId }: props) {
         />
         <button>댓글 달기</button>
       </form>
-    </li>
+    </>
   );
 }
