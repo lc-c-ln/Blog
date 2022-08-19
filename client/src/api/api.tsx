@@ -43,3 +43,21 @@ export const checkPassword = async (comment_id: number, password: string) => {
     });
   return response;
 };
+
+
+// Post API
+export const updateLikeCount = (post_id:number, count:number) => {
+  return axios.put(`${SERVER_URL}/post/like`, {
+    id: post_id,
+    count: count
+  })
+}
+
+// User 인증 끼게 되면 한 유저 당 한번만 가능하게 해야 한다.
+// LikedPost Table에 post_id 저장하고, Update 전에 user_id에 post_id 확인
+export const updateViewCount = async ( post_id:number ) => {
+  return await axios.put(`${SERVER_URL}/post/view`, {
+      id: post_id
+  }).then(res => {return res}).catch(err => {return err})
+}
+

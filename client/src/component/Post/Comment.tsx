@@ -51,7 +51,11 @@ export default function Comment({ comment, postId }: props) {
 
   return (
     <>
-    {comment["deleted"] ? <DeletedComment comment={comment}/>: <BasicComment comment={comment}/>}
+      {comment["deleted"] ? (
+        <DeletedComment comment={comment} />
+      ) : (
+        <BasicComment comment={comment} />
+      )}
 
       <ul>{childCommets}</ul>
 

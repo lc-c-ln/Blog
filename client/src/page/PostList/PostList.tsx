@@ -45,8 +45,6 @@ export default function PostList() {
     axios.put(`//${process.env.REACT_APP_API_SERVER_URL}/counter/view`,{
       id:post_id
     })
-    console.log("일단");
-    
   }
 
   const posts = postList.map((post) => {
