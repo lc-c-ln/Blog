@@ -53,10 +53,8 @@ router.delete("/", (req, res) => {
   const con = pool.getConnection((err, connection) => {
     const sql = `update comment set deleted=true, content="", writer="",password="" where (id=${req.body.id})`;
     connection.query(sql, (err, rows) => {
-      if (err) {
-        res.send(err);
-        console.log(err);
-      } else res.status(200).send("Comment has deleted");
+      if (err) res.send(err);
+      else res.status(200).send("Comment has deleted");
     });
     connection.release();
   });

@@ -13,7 +13,6 @@ router.get("/post", (req, res) => {
     const sql = `select password from post where (id=${req.query["id"]})`;
 
     connection.query(sql, (err, rows) => {
-      // console.log(rows,req.query);
       if (rows[0].password == password) {
         res.status(200).send("Correct Password");
       } else {
@@ -34,7 +33,7 @@ router.get("/comment", (req, res) => {
       if (rows[0].password == password) {
         res.status(200).send("Correct Password");
       } else {
-        res.status(202).send("Wrong Password");
+        res.status(401).send("Wrong Password");
       }
     });
   });

@@ -17,10 +17,18 @@ export function DeletedComment({ comment }: props) {
 }
 
 export const BasicComment = ({ comment }: props) => {
-  const deleteCommentHandler = () => {
+  const deleteCommentHandler = async () => {
     const password = prompt("비밀번호를 입력하세요");
     if (password !== null) {
-      deleteComment(comment["id"], password);
+      const response = await deleteComment(comment["id"], password)
+      if (response === 200) {
+            alert("삭제되었습니다.");
+            window.location.reload();
+          } else if (response === 401) {
+            alert("잘못된 비밀번호입니다.");
+          } else {
+            alert("서버 에러")
+          }
     }
   };
 
@@ -37,10 +45,11 @@ export const BasicComment = ({ comment }: props) => {
 
 export const ParentComment = ({ comment }: props) => {
   return (
-  <li key={comment["id"]} className={styles.Comment}>
-    <div>
-      <p>{comment["content"]}</p>
-      <p>작성자: {comment["writer"]}</p>
-    </div>
-  </li>)
+    <li key={comment["id"]} className={styles.Comment}>
+      <div>
+        <p>{comment["content"]}</p>
+        <p>작성자: {comment["writer"]}</p>
+      </div>
+    </li>
+  );
 };

@@ -40,7 +40,6 @@ router.put("/", (req, res) => {
   const con = pool.getConnection((err, connection) => {
     const sql = `update post set title="${req.body.title}",content="${req.body.content}",writer="${req.body.writer}", password="${password}" where (id=${req.body.id})`;
     connection.query(sql, (err, rows) => {
-      console.log(err, rows);
       if (err) res.send(err);
       else res.status(200).send("Post has edited");
     });
