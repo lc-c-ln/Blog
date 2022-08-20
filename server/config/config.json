@@ -3,12 +3,14 @@
     "user": "root",
     "password": "0000",
     "database": "nts",
+    "multipleStatements" : true,
     "host": "127.0.0.1"
   },
   "production": {
     "user": "endubxctj1tjgndu",
     "password": "gf929o68hggdbzmv",
     "database": "r7oqaw3pxh8is1ti",
+    "multipleStatements" : true,
     "host": "t07cxyau6qg7o5nz.cbetxkdyhwsb.us-east-1.rds.amazonaws.com"
   }
 }

@@ -24,15 +24,17 @@ router.post("/", (req, res) => {
     .createHash("sha256")
     .update(req.body.password)
     .digest("base64");
-
   const con = pool.getConnection((err, connection) => {
     const sql = req.body.parent_comment_id
-      ? `insert into comment(post_id, parent_comment_id, writer, content, password) values(${req.body.post_id}, "${req.body.parent_comment_id}","${req.body.writer}","${req.body.content}","${password}")`
-      : `insert into comment(post_id, writer, content, password) values(${req.body.post_id}, "${req.body.writer}","${req.body.content}","${password}")`;
-    connection.query(sql, (err, rows) => {
+      ? `insert into comment(post_id, parent_comment_id, writer, content, password) values(${req.body.post_id}, "${req.body.parent_comment_id}","${req.body.writer}","${req.body.content}","${password}");`
+      : `insert into comment(post_id, writer, content, password) values(${req.body.post_id}, "${req.body.writer}","${req.body.content}","${password}");`;
+    const sql2 = `update post set comment_cnt=(comment_cnt+1) where (id=${req.body.post_id})`;
+    connection.query(sql + sql2, (err, rows) => {
       if (err) {
         res.send(err);
-      } else res.status(200).send("Comment has created");
+      } else {
+        res.status(200).send("Comment has created");
+      }
     });
     connection.release();
   });
