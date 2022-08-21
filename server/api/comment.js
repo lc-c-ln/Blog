@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   const parent_comment_id = req.query["parent_comment_id"];
   pool.getConnection((err, connection) => {
     const sql = req.query["parent_comment_id"]
-      ? `SELECT id ,content, writer, deleted, reg_date from Comment where (post_id=${idx} and parent_comment_id =${parent_comment_id}) order by reg_date desc`
+      ? `SELECT id ,content, writer, deleted, reg_date from Comment where (post_id=${idx} and parent_comment_id =${parent_comment_id}) order by reg_date`
       : `SELECT id ,content, writer, deleted, reg_date from Comment where (post_id=${idx} and parent_comment_id is null) order by reg_date desc`;
     connection.query(sql, (err, rows) => {
       if (err) res.send(err);
@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
     .update(req.body.password)
     .digest("base64");
   const con = pool.getConnection((err, connection) => {
-    const sql = req.body.parent_comment_id
+    const sql = (req.body.parent_comment_id !== null)
       ? `insert into comment(post_id, parent_comment_id, writer, content, password) values(${req.body.post_id}, "${req.body.parent_comment_id}","${req.body.writer}","${req.body.content}","${password}");`
       : `insert into comment(post_id, writer, content, password) values(${req.body.post_id}, "${req.body.writer}","${req.body.content}","${password}");`;
     const sql2 = `update post set comment_cnt=(comment_cnt+1) where (id=${req.body.post_id})`;

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { getComments, createComment } from "../../api/api";
 import ParentComment from "./ParentComment";
@@ -19,7 +18,7 @@ export default function CommentSection({ postId }: props) {
     const writer = (e.currentTarget.elements[1] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[2] as HTMLInputElement).value;
     
-    createComment(postId,content,writer,password)
+    createComment(postId,content, null ,writer,password)
       .then(() => {
         getCommentList();
       });

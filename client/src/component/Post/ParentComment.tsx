@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./comment.module.css";
 
 import { DeletedComment, BasicComment } from "../Comment/CommentTypes";
+import { createComment } from "../../api/api";
 
 interface props {
   comment: never;
@@ -30,15 +31,13 @@ export default function ParentComment({ comment, postId }: props) {
     const content = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const writer = (e.currentTarget.elements[1] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[2] as HTMLInputElement).value;
-    axios
-      .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
-        post_id: postId,
-        parent_comment_id: e.currentTarget.id,
-        content: content,
-        writer: writer,
-        password: password,
-      })
-      .then(() => getChildCommentList());
+    createComment(
+      postId,
+      content,
+      parseInt(e.currentTarget.id),
+      writer,
+      password
+    ).then(() => getChildCommentList());
   };
 
   const childCommets = childCommentList.map((comment) => {

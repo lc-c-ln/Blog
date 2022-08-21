@@ -12,16 +12,15 @@ export const getComments = (postId: number) => {
   });
 };
 
-export const createComment = async (postId:number, content:string, writer:string, password:string) =>{
+export const createComment = async (postId:number, content:string, parent_comment_id:number | null, writer:string, password:string) =>{
   return await axios
   .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
     post_id: postId,
-    parrent_comment_id: null,
+    parent_comment_id: parent_comment_id,
     content: content,
     writer: writer,
     password: password,
   })
-
 }
 
 export const deleteComment = async (comment_id: number, password: string) => {
