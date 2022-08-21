@@ -4,50 +4,54 @@ import { getComments } from "../../api/api";
 import Comment from "./Comment";
 import styles from "./commentSection.module.css";
 
-
 interface props {
   postId: number;
 }
 
-export default function CommentSection(props: props) {
+// comment 전체 섹션
+export default function CommentSection({ postId }: props) {
   const [commentList, setCommentList] = useState([]);
+  const [commentToggle, setCommentToggle] = useState(false);
 
-  const createOrdinaryComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const createComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const content = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const writer = (e.currentTarget.elements[1] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[2] as HTMLInputElement).value;
-
+    
     axios
       .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
-        post_id: props.postId,
+        post_id: postId,
         parrent_comment_id: null,
         content: content,
         writer: writer,
         password: password,
       })
       .then((res) => {
-        getCommentList()
+        getCommentList();
       });
   };
 
   const getCommentList = () => {
-    getComments(props.postId)
-      .then((res) => {
-        setCommentList(res.data);
-      });
+    getComments(postId).then((res) => {
+      setCommentList(res.data);
+    });
   };
+
   useEffect(() => {
-    getCommentList()
+    getCommentList();
   }, []);
 
-  const comments = commentList.map((comment) => {
-    return <Comment comment={comment} postId={props.postId} />;
-  });
+
+  const comments = (commentToggle ? commentList : commentList.slice(0, 5)).map(
+    (comment) => {
+      return <Comment comment={comment} postId={postId} />;
+    }
+  );
 
   return (
-    <div className={styles.CommentSection}>
-      <form onSubmit={createOrdinaryComment}>
+    <section className={styles.CommentSection}>
+      <form onSubmit={createComment}>
         <input
           className={styles.Content}
           type="text"
@@ -69,6 +73,11 @@ export default function CommentSection(props: props) {
         <button>댓글 달기</button>
       </form>
       <ul>{comments}</ul>
-    </div>
+      {commentToggle ? (
+        <></>
+      ) : (
+        <div onClick={() => setCommentToggle(true)}>전체 댓글 더보기</div>
+      )}
+    </section>
   );
 }
