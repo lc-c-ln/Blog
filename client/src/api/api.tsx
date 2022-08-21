@@ -12,6 +12,18 @@ export const getComments = (postId: number) => {
   });
 };
 
+export const createComment = async (postId:number, content:string, writer:string, password:string) =>{
+  return await axios
+  .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
+    post_id: postId,
+    parrent_comment_id: null,
+    content: content,
+    writer: writer,
+    password: password,
+  })
+
+}
+
 export const deleteComment = async (comment_id: number, password: string) => {
   const isPasswordCorrect = await checkPassword(comment_id, password);
   if (isPasswordCorrect === 200) {

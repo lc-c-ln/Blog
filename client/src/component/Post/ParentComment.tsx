@@ -9,7 +9,7 @@ interface props {
   postId: number;
 }
 
-export default function Comment({ comment, postId }: props) {
+export default function ParentComment({ comment, postId }: props) {
   const [childCommentList, setChildCommentList] = useState([]);
   const getChildCommentList = () => {
     axios

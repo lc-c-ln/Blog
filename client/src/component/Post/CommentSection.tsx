@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { getComments } from "../../api/api";
-import Comment from "./Comment";
+import { getComments, createComment } from "../../api/api";
+import ParentComment from "./ParentComment";
 import styles from "./commentSection.module.css";
 
 interface props {
@@ -13,21 +13,14 @@ export default function CommentSection({ postId }: props) {
   const [commentList, setCommentList] = useState([]);
   const [commentToggle, setCommentToggle] = useState(false);
 
-  const createComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const onCreateComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const content = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const writer = (e.currentTarget.elements[1] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[2] as HTMLInputElement).value;
     
-    axios
-      .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
-        post_id: postId,
-        parrent_comment_id: null,
-        content: content,
-        writer: writer,
-        password: password,
-      })
-      .then((res) => {
+    createComment(postId,content,writer,password)
+      .then(() => {
         getCommentList();
       });
   };
@@ -42,16 +35,15 @@ export default function CommentSection({ postId }: props) {
     getCommentList();
   }, []);
 
-
   const comments = (commentToggle ? commentList : commentList.slice(0, 5)).map(
     (comment) => {
-      return <Comment comment={comment} postId={postId} />;
+      return <ParentComment comment={comment} postId={postId} />;
     }
   );
 
   return (
     <section className={styles.CommentSection}>
-      <form onSubmit={createComment}>
+      <form onSubmit={onCreateComment}>
         <input
           className={styles.Content}
           type="text"
@@ -73,6 +65,7 @@ export default function CommentSection({ postId }: props) {
         <button>댓글 달기</button>
       </form>
       <ul>{comments}</ul>
+
       {commentToggle ? (
         <></>
       ) : (
