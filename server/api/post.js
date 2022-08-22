@@ -59,6 +59,7 @@ router.delete("/", (req, res) => {
       if (rows[0].password == password) {
         const sql2 = `delete from post where (id=${req.body.id})`;
         connection.query(sql2, (err, rows) => {
+          console.log(err);
           if (err) res.send(err);
           else res.status(200).send("Post has deleted");
         })

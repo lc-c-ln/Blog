@@ -19,7 +19,7 @@ export default function CommentSection(props: props) {
     axios
       .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
         post_id: props.postId,
-        parrent_comment_id: null,
+        parent_comment_id: null,
         content: content,
         writer: writer,
         password: password,
