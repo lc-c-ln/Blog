@@ -67,8 +67,8 @@ export default function PostList() {
   });
 
   return (
-    <main>
-      <h1>게시판이요</h1>총 게시물 수 : {totalPostCnt} 총 댓글 수:
+    <main className={styles.Home}>
+      <h1>게시판</h1>총 게시물 수 : {totalPostCnt} 총 댓글 수:
       {totalCommentCnt}
       <SearchBar
         keyword={keyword}

@@ -16,19 +16,37 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  // hashtag 관련 내용 안 넣었음
   password = crypto
     .createHash("sha256")
     .update(req.body.password)
     .digest("base64");
-  const con = pool.getConnection((err, connection) => {
-    const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}")`;
-    connection.query(sql, (err, rows) => {
-      if (err) res.send(err);
-      else res.status(200).send("Post has created");
+  const hashtagList = req.body.hashtagList;
+    const con = pool.getConnection((err, connection) => {
+    const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}");`;
+    try {
+      connection.query(sql, (err, rows) => {
+      const post_id = rows.insertId;
+      for (const tagName of hashtagList) {
+        connection.query(
+          `insert into tag(name) select "${tagName}" where not exists (select name from tag where name="${tagName}")`,
+          (err, rows) => {
+            if (err) 
+            console.log(err);
+            connection.query(
+              `insert into post_tag(post_id, tag_id) values(${post_id}, (select id from tag where name="${tagName}"))`
+            );
+          }
+        );
+      }
     });
+  } catch (err) {
+    throw err
+  } finally {
+    res.status(200).send("Post has created Successfully")
     connection.release();
+  }
   });
+  
 });
 
 router.put("/", (req, res) => {

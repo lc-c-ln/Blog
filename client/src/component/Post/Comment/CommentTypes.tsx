@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./comments.module.css";
-import { deleteComment } from "../../api/api";
+import { deleteComment } from "../../../api/api";
 
 interface props {
   comment: never;

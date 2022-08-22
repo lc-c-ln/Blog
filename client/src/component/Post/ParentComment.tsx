@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./comment.module.css";
 
-import { DeletedComment, BasicComment } from "../Comment/CommentTypes";
+import { DeletedComment, BasicComment } from "./Comment/CommentTypes";
 import { createComment } from "../../api/api";
 
 interface props {

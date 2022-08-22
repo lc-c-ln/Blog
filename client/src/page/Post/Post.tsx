@@ -41,7 +41,7 @@ export default function Post() {
 
   const updatePost = () => {
     const password = prompt("수정을 위한 비밀번호를 입력하세요")
-    axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/auth`, {
+    axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/auth/post`, {
       params: {
         id: post_Id,
         password: password
@@ -101,10 +101,7 @@ export default function Post() {
         </p>
       </div>
       <div className={styles.Content}>{postData.content}</div>
-      <div>
         <CommentSection postId={post_Id} />
-      </div>
-      <ul></ul>
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function SearchBar(props: props) {
     props.setCategory(categoryRef.current
       ? categoryRef.current.selectedOptions[0].value
       : "")
-    props.setCurrentPage(1)  
+    props.setCurrentPage(1)
     // axios
     //   .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
     //     params: {
