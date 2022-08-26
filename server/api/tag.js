@@ -4,24 +4,28 @@ const pool = require("../db/db_connect");
 
 const router = express.Router();
 
+
+
 router.post("/", (req, res) => {
   const con = pool.getConnection((err, connection) => {
     const searchsql = `select id from tag where name="${req.body.name}"`;
     connection.query(searchsql, (err, rows) => {
       if (rows.length != 0) {
-        const sql = `insert into post_tag(post_id, tag_id) values(${req.body.post_id},${rows[0]["id"]});`;
+        const sql = `insert into post_tag(post_id, tag_id) values(${req.body.post_id},${rows[0]["id"]});`; //
         connection.query(sql, (err, rows) => {
           res.status(200).send("Existed Tag has added");
         });
       } else {
         try {
           connection.beginTransaction();
-          connection.query(`insert into tag(name) values("${req.body.name}");`)
-          connection.query(`insert into post_tag(post_id, tag_id) values(${req.body.post_id}, (select id from tag where (name="${req.body.name}")));`);
+          connection.query(`insert into tag(name) values("${req.body.name}");`); 
+          connection.query(
+            `insert into post_tag(post_id, tag_id) values(${req.body.post_id}, (select id from tag where (name="${req.body.name}")));`
+          );
           connection.commit();
-          res.status(200).send("Hashtag has added")
+          res.status(200).send("Hashtag has added");
         } catch (err) {
-          res.send(err)
+          res.send(err);
         }
       }
     });
@@ -29,15 +33,28 @@ router.post("/", (req, res) => {
   });
 });
 
-router.delete("/", (req, res) => {
-  const con = pool.getConnection((err, connection) => {
-    const sql = `delete from post_tag where (post_id=${req.body.post_id})`;
-    connection.query(sql, (err, rows) => {
-      if (err) res.send(err);
-      else res.status(200).send("Hashtag has deleted");
-    });
-    connection.release();
-  });
-});
+// // tag 기능 구현 시 updtate
+// router.update("/", (req, res) => {
+//   hashtagList = req.body.hashtagList;
+//   const con = pool.getConnection((err, connection) => {
+//     const sql = `delete tag_id from post_tag where (post_id=${req.body.post_id});`;
+//     connection.query(sql, (err, rows) => {
+//       if (err) res.send(err);
+//       else
+//         try {
+//           connection.beginTransaction();
+//           connection.query(`insert into tag(name) values("${req.body.name}");`);
+//           connection.query(
+//             `insert into post_tag(post_id, tag_id) values(${req.body.post_id}, (select id from tag where (name="${req.body.name}")));`
+//           );
+//           connection.commit();
+//           res.status(200).send("Hashtag has added");
+//         } catch (err) {
+//           res.status(200).send("Hashtag has deleted");
+//         }
+//     });
+//     connection.release();
+//   });
+// });
 
 module.exports = router;

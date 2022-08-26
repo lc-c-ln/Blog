@@ -16,46 +16,64 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const hashtagList = req.body.hashtagList;
   password = crypto
     .createHash("sha256")
     .update(req.body.password)
     .digest("base64");
-  const hashtagList = req.body.hashtagList;
-    const con = pool.getConnection((err, connection) => {
+  const con = pool.getConnection((err, connection) => {
     const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}");`;
     try {
       connection.query(sql, (err, rows) => {
-      const post_id = rows.insertId;
-      for (const tagName of hashtagList) {
-        connection.query(
-          `insert into tag(name) select "${tagName}" where not exists (select name from tag where name="${tagName}")`,
-          (err, rows) => {
-            if (err) 
-            console.log(err);
-            connection.query(
-              `insert into post_tag(post_id, tag_id) values(${post_id}, (select id from tag where name="${tagName}"))`
-            );
-          }
-        );
-      }
-    });
-  } catch (err) {
-    throw err
-  } finally {
-    res.status(200).send("Post has created Successfully")
-    connection.release();
-  }
+        const post_id = rows.insertId;
+        for (const tagName of hashtagList) {
+          connection.query(
+            `insert into tag(name) select "${tagName}" where not exists (select name from tag where name="${tagName}")`,
+            (err, rows) => {
+              if (err) console.log(err);
+              connection.query(
+                `insert into post_tag(post_id, tag_id) values(${post_id}, (select id from tag where name="${tagName}"))`
+              );
+            }
+          );
+        }
+      });
+    } catch (err) {
+      throw err;
+    } finally {
+      res.status(200).send("Post has created Successfully");
+      connection.release();
+    }
   });
-  
 });
 
 router.put("/", (req, res) => {
+  const hashtagList = req.body.hashtagList;
   password = crypto
     .createHash("sha256")
     .update(req.body.password)
     .digest("base64");
   const con = pool.getConnection((err, connection) => {
     const sql = `update post set title="${req.body.title}",content="${req.body.content}",writer="${req.body.writer}", password="${password}" where (id=${req.body.id})`;
+    try {
+      connection.beginTransaction();
+      connection.query(
+        `delete post_tag
+        from post_tag 
+          join tag 
+                on post_tag.tag_id = tag.id
+                where
+            (tag.name not in ${hashtagList} and post_tag.post_id = ${req.body.id})`
+      ) // 새로 update 받은 리스트에 있는 tag들에 포함되지 않은 tag들 삭제 
+      // 새로 update 받은 리스트에 있는 새로운 tag 추가하기.()
+      // 제안 : 바로 delete 문에서 삭제하지 말고,
+      // select 문으로 새로운  tag들과, 지워야할 tag를 분리하기.  
+      // 바로 폐기
+      connection.query()
+      connection.query()
+    } catch {
+      res.send("Fail")
+    }
     connection.query(sql, (err, rows) => {
       if (err) res.send(err);
       else res.status(200).send("Post has edited");
@@ -63,6 +81,7 @@ router.put("/", (req, res) => {
     connection.release();
   });
 });
+
 
 router.delete("/", (req, res) => {
   const password = crypto
