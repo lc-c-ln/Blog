@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   const page = req.query["page"];
 
   const con = pool.getConnection((err, connection) => {
-    sql = ""
+    sql = "";
     switch (category) {
       case "hashtag":
         sql = `select post.id, post.title, post.writer, post.reg_date,post.comment_cnt, post.view_cnt, post.like_cnt from post join post_tag on post.id = post_tag.post_id join tag on tag.id = post_tag.tag_id where tag.name = "${keyword}"`; // 찾으려는 post 들의 id 를 출력
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
       default:
         sql = `select id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from post where ${category} like '%${keyword}%' order by id desc`;
         break;
-    }    
+    }
     connection.query(sql, (err, rows) => {
       if (err) res.send(err);
       else {

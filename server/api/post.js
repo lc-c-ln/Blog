@@ -5,11 +5,19 @@ const crypto = require("crypto");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const idx = req.query["post_id"];
+  const id = req.query["post_id"];
   pool.getConnection((err, connection) => {
-    const sql = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt, content  from POST where (id=${idx})`;
-    connection.query(sql, (err, rows) => {
-      res.json(rows[0]);
+    sql1 = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt, content from POST where (id=${id})`;
+    sql2 = `select tag.name from tag join post_tag on post_tag.tag_id = tag.id where post_tag.post_id=${id}`;
+    connection.query(sql1, (err, rows1) => {
+      connection.query(sql2, (err2, rows2) => {
+        res.json({
+          ...rows1[0],
+          hashtagList: rows2.map((tag) => {
+            return tag.name;
+          }),
+        });
+      });
     });
     connection.release();
   });
@@ -29,11 +37,7 @@ router.post("/", (req, res) => {
         for (const tagName of hashtagList) {
           connection.query(
             `insert ignore into tag(name) values ("${tagName}")`,
-            // `insert into tag(name)
-            // select "${tagName}"
-            // where not exists (select name from tag where name="${tagName}")`
             (err, rows) => {
-              
               if (err) console.log(err);
               connection.query(
                 `insert into post_tag(post_id, tag_id) values(${post_id}, (select id from tag where name="${tagName}"))`
@@ -72,7 +76,7 @@ router.put("/", (req, res) => {
             if (err) console.log(err);
             connection.query(
               `insert into post_tag(post_id, tag_id) values(${req.body.id}, (select id from tag where name="${tagName}"))`
-            );  
+            );
           }
         );
       }
