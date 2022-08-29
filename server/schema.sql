@@ -25,7 +25,8 @@ create table if not exists comment (
 
 create table if not exists tag(
 		id int not null primary key AUTO_INCREMENT,
-	  name varchar(20) not null
+	  name varchar(20) not null,
+	  unique index (name)
 );
 
 create table if not exists post_tag (
