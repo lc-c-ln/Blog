@@ -28,8 +28,12 @@ router.post("/", (req, res) => {
         const post_id = rows.insertId;
         for (const tagName of hashtagList) {
           connection.query(
-            `insert into tag(name) select "${tagName}" where not exists (select name from tag where name="${tagName}")`,
+            `insert ignore into tag(name) values ("${tagName}")`,
+            // `insert into tag(name)
+            // select "${tagName}"
+            // where not exists (select name from tag where name="${tagName}")`
             (err, rows) => {
+              
               if (err) console.log(err);
               connection.query(
                 `insert into post_tag(post_id, tag_id) values(${post_id}, (select id from tag where name="${tagName}"))`
@@ -48,31 +52,34 @@ router.post("/", (req, res) => {
 });
 
 router.put("/", (req, res) => {
+  console.log(req);
   const hashtagList = req.body.hashtagList;
   password = crypto
     .createHash("sha256")
     .update(req.body.password)
     .digest("base64");
   const con = pool.getConnection((err, connection) => {
+    // post Table 내용 수정
     const sql = `update post set title="${req.body.title}",content="${req.body.content}",writer="${req.body.writer}", password="${password}" where (id=${req.body.id})`;
+    // tag 관련 내용 수정
     try {
       connection.beginTransaction();
-      connection.query(
-        `delete post_tag
-        from post_tag 
-          join tag 
-                on post_tag.tag_id = tag.id
-                where
-            (tag.name not in ${hashtagList} and post_tag.post_id = ${req.body.id})`
-      ) // 새로 update 받은 리스트에 있는 tag들에 포함되지 않은 tag들 삭제 
-      // 새로 update 받은 리스트에 있는 새로운 tag 추가하기.()
-      // 제안 : 바로 delete 문에서 삭제하지 말고,
-      // select 문으로 새로운  tag들과, 지워야할 tag를 분리하기.  
-      // 바로 폐기
-      connection.query()
-      connection.query()
-    } catch {
-      res.send("Fail")
+      connection.query(`delete from post_tag where post_id = ${req.body.id}`);
+      for (const tagName of hashtagList) {
+        connection.query(
+          `insert ignore into tag(name) values ("${tagName}")`,
+          (err, rows) => {
+            if (err) console.log(err);
+            connection.query(
+              `insert into post_tag(post_id, tag_id) values(${req.body.id}, (select id from tag where name="${tagName}"))`
+            );  
+          }
+        );
+      }
+      connection.commit();
+    } catch (err) {
+      connection.rollback();
+      throw err;
     }
     connection.query(sql, (err, rows) => {
       if (err) res.send(err);
@@ -81,7 +88,6 @@ router.put("/", (req, res) => {
     connection.release();
   });
 });
-
 
 router.delete("/", (req, res) => {
   const password = crypto

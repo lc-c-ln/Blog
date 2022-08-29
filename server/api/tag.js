@@ -4,8 +4,6 @@ const pool = require("../db/db_connect");
 
 const router = express.Router();
 
-
-
 router.post("/", (req, res) => {
   const con = pool.getConnection((err, connection) => {
     const searchsql = `select id from tag where name="${req.body.name}"`;
