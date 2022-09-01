@@ -30,29 +30,5 @@ router.post("/", (req, res) => {
     connection.release();
   });
 });
-
-// // tag 기능 구현 시 updtate
-// router.update("/", (req, res) => {
-//   hashtagList = req.body.hashtagList;
-//   const con = pool.getConnection((err, connection) => {
-//     const sql = `delete tag_id from post_tag where (post_id=${req.body.post_id});`;
-//     connection.query(sql, (err, rows) => {
-//       if (err) res.send(err);
-//       else
-//         try {
-//           connection.beginTransaction();
-//           connection.query(`insert into tag(name) values("${req.body.name}");`);
-//           connection.query(
-//             `insert into post_tag(post_id, tag_id) values(${req.body.post_id}, (select id from tag where (name="${req.body.name}")));`
-//           );
-//           connection.commit();
-//           res.status(200).send("Hashtag has added");
-//         } catch (err) {
-//           res.status(200).send("Hashtag has deleted");
-//         }
-//     });
-//     connection.release();
-//   });
-// });
-
+// tag 수정/삭제는 결국 Post 수정 요청 시에 같이 처리되기 때문에, post api 에서 한번에 처리  
 module.exports = router;

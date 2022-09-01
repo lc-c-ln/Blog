@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
           connection.query(
             `insert ignore into tag(name) values ("${tagName}")`,
             (err, rows) => {
-              if (err) console.log(err);
+              if (err) req.send(err);
               connection.query(
                 `insert into post_tag(post_id, tag_id) values(${post_id}, (select id from tag where name="${tagName}"))`
               );
@@ -56,7 +56,6 @@ router.post("/", (req, res) => {
 });
 
 router.put("/", (req, res) => {
-  console.log(req);
   const hashtagList = req.body.hashtagList;
   password = crypto
     .createHash("sha256")
@@ -73,7 +72,7 @@ router.put("/", (req, res) => {
         connection.query(
           `insert ignore into tag(name) values ("${tagName}")`,
           (err, rows) => {
-            if (err) console.log(err);
+            if (err) res.send(err);
             connection.query(
               `insert into post_tag(post_id, tag_id) values(${req.body.id}, (select id from tag where name="${tagName}"))`
             );
@@ -104,7 +103,8 @@ router.delete("/", (req, res) => {
       if (rows[0].password == password) {
         const sql2 = `delete from post where (id=${req.body.id})`;
         connection.query(sql2, (err, rows) => {
-          if (err) res.send(err);
+          if (err) 
+          res.send(err);
           else res.status(200).send("Post has deleted");
         });
       } else {

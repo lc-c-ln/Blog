@@ -13,9 +13,9 @@ create table if not exists post (
 create table if not exists comment (
 	id int not null primary key AUTO_INCREMENT,
 	post_id int not null,
-    foreign key (post_id) references post(id),
-		writer varchar(10) not null,
-	  reg_date datetime not null default current_timestamp,
+    foreign key (post_id) references post(id) on delete cascade,
+	writer varchar(10) not null,
+	reg_date datetime not null default current_timestamp,
     parent_comment_id int default null,
     foreign key (parent_comment_id) references comment (id),
     deleted boolean default false,
@@ -24,14 +24,14 @@ create table if not exists comment (
 );
 
 create table if not exists tag(
-		id int not null primary key AUTO_INCREMENT,
-	  name varchar(20) not null,
-	  unique index (name)
+	id int not null primary key AUTO_INCREMENT,
+	name varchar(20) not null,
+	unique index (name)
 );
 
 create table if not exists post_tag (
-		post_id int not null,
-    foreign key (post_id) references post(id),
+	post_id int not null,
+    foreign key (post_id) references post(id) on delete cascade,
     tag_id int not null,
     foreign key (tag_id) references tag(id)
 );
