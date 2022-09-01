@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import SearchBar from "../../component/PostList/SearchBar";
-import PageButtons from "../../component/PostList/PageButtons";
-import styles from "./postList.module.css";
-import { updateViewCount } from "../../api/api";
-export default function PostList() {
+import SearchBar from "../../component/Home/SearchBar";
+import PageButtons from "../../component/Home/PageButtons";
+import styles from "./homePage.module.css";
+import { searchPosts, updateViewCount } from "../../api/api";
+
+
+export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentTime, setCurrentTime] = useState(second)
   const [totalPageNum, setTotalPageNum] = useState(0);
   const [postList, setPostList] = useState([]);
   const [totalPostCnt, setTotalPostCnt] = useState(0);
   const [totalCommentCnt, setCommentCnt] = useState(0);
-  const [category, setCategory] = useState("title");
+  
+  const [searchKeyword, setSearchKeyword] = useState({
+    category:"title",
+    keyword:""
+  })
+
+  const [ category, setCategory] = useState("title");
   const [keyword, setKeyword] = useState("");
-  // 제일 처음에, setting을 해야 한다라는 것.
+
+  // const getPostList = (page, keyword, category) => {
+    
+  // }
 
   // useEffect(() => {
   //   axios
@@ -28,16 +40,24 @@ export default function PostList() {
   //       setTotalPageNum(res.data.totalPageCnt);
   //       setPostList(res.data.posts);
   //     });
-  // }, [category, currentPage, keyword]);
+  // }, [currentPage, keyword]);
 
   useEffect(() => {
+  // Counter
     axios
       .get(`//${process.env.REACT_APP_API_SERVER_URL}/postlist`)
       .then((res) => {
         setTotalPostCnt(res.data.postCnt);
         setCommentCnt(res.data.commentCnt);
       });
+
+  // 초기 postList setting
+    searchPosts(1,"","title").then((res)=>{
+      setTotalPageNum(res.data.totalPageCnt)
+      setPostList(res.data.posts)
+    })
   }, []);
+
   var today = new Date();
   today.setDate(today.getDate() - 3);
 

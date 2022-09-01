@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { updateLikeCount } from "../../api/api";
+import { updateLikeCount, updateViewCount } from "../../api/api";
 import CommentSection from "../../component/Post/CommentSection";
 import styles from "./post.module.css";
 
@@ -9,8 +9,6 @@ export default function Post() {
   const param = useParams();
   const post_Id = param.post_id !== undefined ? parseInt(param.post_id) : 0;
   const nav = useNavigate();
-  const [, forceUpdate] = useState();
-
   const [postData, setPostData] = useState({
     title: "",
     writer: "",
@@ -37,6 +35,7 @@ export default function Post() {
   };
 
   useEffect(() => {
+    updateViewCount(post_Id)
     getPostData();
   }, []);
 
@@ -110,8 +109,9 @@ export default function Post() {
         <ul className={styles.Hashtags}>
           {postData.hashtagList.map((tag) => {
             return (
+              // Link에서 Home = PostList 에 props 주면, PostList에서 해당 props로 hashtag 검색한 페이지 
               <li>
-                <Link to="/">#{tag}</Link>
+                <Link to="/">#{tag}</Link> 
               </li>
             );
           })}
