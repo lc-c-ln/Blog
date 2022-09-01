@@ -1,36 +1,27 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { searchPosts } from "../../api/api";
-// import {searchPosts} from
+import React, { useRef } from "react";
 
 interface props {
-  postList: never[];
-  totalPageNum: number;
-  currentPage: number;
-  category: string;
-  keyword: string;
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
-  setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  setTotalPageNum: React.Dispatch<React.SetStateAction<number>>;
-  setPostList: React.Dispatch<React.SetStateAction<never[]>>;
+  setSearchKeyword: React.Dispatch<
+    React.SetStateAction<{
+      category: string;
+      keyword: string;
+    }>
+  >;
 }
 
 export default function SearchBar(props: props) {
-  const keywordRef = useRef<HTMLInputElement>(null);
-  const categoryRef = useRef<HTMLSelectElement>(null);
-  
+  // ref.current 마다 null 처리 하는 문제 때문에 any 사용
+  const keywordRef = useRef<any>();
+  const categoryRef = useRef<any>();
+
   const searchHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    // 아래 전체가 검색/postlist 설정까지
-    searchPosts(
-      props.currentPage,
-      keywordRef.current ? keywordRef.current.value : "",
-      categoryRef.current ? categoryRef.current.selectedOptions[0].value : ""
-    ).then((res) => {
-      props.setTotalPageNum(res.data.totalPageCnt);
-      props.setPostList(res.data.posts);
+    props.setSearchKeyword({
+      keyword: keywordRef.current.value,
+      category: categoryRef.current.value,
     });
+    props.setCurrentPage(1)
   };
 
   return (
