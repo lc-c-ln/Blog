@@ -12,3 +12,12 @@
     padding: 10px;
     margin: 10px 0;
 }
+
+.Hashtags {
+    list-style: none;
+}
+
+.Hashtags li {
+    display: inline;
+    padding: 0 10px 0 0; 
+}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "../../component/PostList/SearchBar";
 import PageButtons from "../../component/PostList/PageButtons";
 import styles from "./postList.module.css";
-
+import { updateViewCount } from "../../api/api";
 export default function PostList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(0);
@@ -13,21 +13,22 @@ export default function PostList() {
   const [totalCommentCnt, setCommentCnt] = useState(0);
   const [category, setCategory] = useState("title");
   const [keyword, setKeyword] = useState("");
+  // 제일 처음에, setting을 해야 한다라는 것.
 
-  useEffect(() => {
-    axios
-      .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
-        params: {
-          page: currentPage,
-          keyword: keyword,
-          category: category,
-        },
-      })
-      .then((res) => {
-        setTotalPageNum(res.data.totalPageCnt);
-        setPostList(res.data.posts);
-      });
-  }, [category, currentPage, keyword]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
+  //       params: {
+  //         page: currentPage,
+  //         keyword: keyword,
+  //         category: category,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setTotalPageNum(res.data.totalPageCnt);
+  //       setPostList(res.data.posts);
+  //     });
+  // }, [category, currentPage, keyword]);
 
   useEffect(() => {
     axios
@@ -40,19 +41,12 @@ export default function PostList() {
   var today = new Date();
   today.setDate(today.getDate() - 3);
 
-  // view_cnt api
-  const updateViewCnt = (post_id:number) => {
-    axios.put(`//${process.env.REACT_APP_API_SERVER_URL}/counter/view`,{
-      id:post_id
-    })
-  }
-
   const posts = postList.map((post) => {
     var createdTime = new Date(post["reg_date"]);
     return (
       <li key={post["id"]}>
         <div className={styles.frontSection}>
-          <Link to={"/post/" + post["id"]} onClick={()=>updateViewCnt(post["id"])}>{post["title"]}</Link>{" "}
+          <Link to={"/post/" + post["id"]} onClick={()=>updateViewCount(post["id"])}>{post["title"]}</Link>{" "}
           {today > createdTime ? "" : "New"}
           <p className={styles.writer}> 작성자: {post["writer"]}</p>
           <p>작성일시: {post["reg_date"]}</p>
@@ -83,6 +77,7 @@ export default function PostList() {
         setPostList={setPostList}
       />
       <Link to="/post/new">새 글 쓰기</Link>
+      {/* component/PostList로 분리할 것 */}
       <div>
         <ul className={styles.Post}>{posts}</ul>
       </div>
