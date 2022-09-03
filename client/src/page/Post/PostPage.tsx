@@ -35,7 +35,7 @@ export default function Post() {
   };
 
   useEffect(() => {
-    updateViewCount(post_Id)
+    updateViewCount(post_Id);
     getPostData();
   }, []);
 
@@ -109,9 +109,16 @@ export default function Post() {
         <ul className={styles.Hashtags}>
           {postData.hashtagList.map((tag) => {
             return (
-              // Link에서 Home = PostList 에 props 주면, PostList에서 해당 props로 hashtag 검색한 페이지 
+              // Link에서 Home = PostList 에 props 주면, PostList에서 해당 props로 hashtag 검색한 페이지
               <li>
-                <Link to="/">#{tag}</Link> 
+                <Link
+                  to="/"
+                  state={{
+                    keyword:tag,
+                    category:"tag"
+                  }}
+                >#{tag}</Link>
+                {/* <Link to="/" state: {d:"s"}}}>#{tag}</Link>  */}
               </li>
             );
           })}

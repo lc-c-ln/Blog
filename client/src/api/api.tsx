@@ -12,16 +12,21 @@ export const getComments = (postId: number) => {
   });
 };
 
-export const createComment = async (postId:number, content:string, parent_comment_id:number | null, writer:string, password:string) =>{
-  return await axios
-  .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
+export const createComment = async (
+  postId: number,
+  content: string,
+  parent_comment_id: number | null,
+  writer: string,
+  password: string
+) => {
+  return await axios.post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
     post_id: postId,
     parent_comment_id: parent_comment_id,
     content: content,
     writer: writer,
     password: password,
-  })
-}
+  });
+};
 
 export const deleteComment = async (comment_id: number, password: string) => {
   const isPasswordCorrect = await checkPassword(comment_id, password);
@@ -38,6 +43,44 @@ export const deleteComment = async (comment_id: number, password: string) => {
   }
 };
 
+/*
+Post API
+*/
+export const updateLikeCount = async (post_id: number, count: number) => {
+  return await axios.put(`${SERVER_URL}/post/like`, {
+    id: post_id,
+    count: count,
+  });
+};
+
+export const updateViewCount = async (post_id: number) => {
+  return await axios
+    .put(`${SERVER_URL}/post/view`, {
+      id: post_id,
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const searchPosts = async (
+  page: number,
+  keyword: string,
+  category: string
+) => {
+  return await axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
+    params: {
+      page: page,
+      keyword: keyword,
+      category: category,
+    },
+  });
+};
+
+/* Auth API */
 export const checkPassword = async (comment_id: number, password: string) => {
   const response = await axios
     .get(`${SERVER_URL}/auth/comment`, {
@@ -54,33 +97,3 @@ export const checkPassword = async (comment_id: number, password: string) => {
     });
   return response;
 };
-
-/*
-Post API
-
-
-
-*/
-export const updateLikeCount = async (post_id:number, count:number) => {
-  return await axios.put(`${SERVER_URL}/post/like`, {
-    id: post_id,
-    count: count
-  })
-}
-
-export const updateViewCount = async ( post_id:number ) => {
-  return await axios.put(`${SERVER_URL}/post/view`, {
-      id: post_id
-  }).then(res => {return res}).catch(err => {return err})
-}
-
-export const searchPosts = async (page : number, keyword :string, category: string) =>{
-  return await axios
-  .get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
-    params: {
-      page: page,
-      keyword: keyword,
-      category: category,
-    },
-  })
-}
