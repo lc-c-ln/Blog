@@ -1,10 +1,10 @@
-.Container form {
+.Container {
     width: 1024px ;
     margin:auto;
     padding: 100px;
     text-align: left;
 }
-.Container form label {
+.Form label {
     display: block;
 }
 

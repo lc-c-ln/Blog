@@ -2,27 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./comment.module.css";
 
+import { DeletedComment, BasicComment } from "./Comment/CommentTypes";
+import { createComment } from "../../api/api";
+
 interface props {
   comment: never;
   postId: number;
 }
 
-interface childCommentProps {
-  comment: never;
-}
-
-const ChildComment = ({ comment }: childCommentProps) => {
-  return (
-    <li key={comment["id"]} className={styles.Comment}>
-      <div>
-        ㄴ<p>{comment["content"]}</p>
-        <p>작성자: {comment["writer"]}</p>
-      </div>
-    </li>
-  );
-};
-
-export default function Comment({ comment, postId }: props) {
+export default function ParentComment({ comment, postId }: props) {
   const [childCommentList, setChildCommentList] = useState([]);
   const getChildCommentList = () => {
     axios
@@ -43,29 +31,31 @@ export default function Comment({ comment, postId }: props) {
     const content = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const writer = (e.currentTarget.elements[1] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[2] as HTMLInputElement).value;
-    axios
-      .post(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
-        post_id: postId,
-        parent_comment_id: e.currentTarget.id,
-        content: content,
-        writer: writer,
-        password: password,
-      })
-      .then(() => getChildCommentList());
+    createComment(
+      postId,
+      content,
+      parseInt(e.currentTarget.id),
+      writer,
+      password
+    ).then(() => getChildCommentList());
   };
 
   const childCommets = childCommentList.map((comment) => {
-    return <ChildComment comment={comment} />;
+    return comment["deleted"] ? (
+      <DeletedComment comment={comment} />
+    ) : (
+      <BasicComment comment={comment} />
+    );
   });
 
   return (
-    <li key={comment["id"]} className={styles.Comment}>
-      <div>
-        <p>{comment["content"]}</p>
-        <p>
-          작성자: {comment["writer"]}
-        </p>
-      </div>
+    <>
+      {comment["deleted"] ? (
+        <DeletedComment comment={comment} />
+      ) : (
+        <BasicComment comment={comment} />
+      )}
+
       <ul>{childCommets}</ul>
 
       <form
@@ -93,6 +83,6 @@ export default function Comment({ comment, postId }: props) {
         />
         <button>댓글 달기</button>
       </form>
-    </li>
+    </>
   );
 }

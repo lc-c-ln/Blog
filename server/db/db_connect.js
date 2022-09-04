@@ -1,15 +1,16 @@
-const mysql = require("mysql2")
-const config = require('../config/config')
+const mysql = require("mysql2");
+const config = require("../config/config");
+const env = process.env.NODE_ENV || "development"
 
 const pool = mysql.createPool({
-    ...config["development"],
-    connectionLimit:20,
+  ...config[env],
+  connectionLimit: 20,
 });
 
-pool.getConnection(function(err){
-    if(err) throw err;
-    else
-    console.log('Connencted');
-})
+pool.getConnection(function (err) {
+  if (err) throw err;
+  else console.log("Connencted");
+});
 
-module.exports = pool
+module.exports = pool;
+  

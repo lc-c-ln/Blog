@@ -7,17 +7,17 @@ router.get("/", (req, res) => {
   const category = req.query["category"]; //title,writer,hashtag,content
   const keyword = req.query["keyword"];
   const page = req.query["page"];
+
   const con = pool.getConnection((err, connection) => {
-    const sql =
-      category == "hashtag"
-        ? `select id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt 
-        from post
-        where (id in (
-            select post_id 
-            from post_tag 
-            where (tag_id in (select id from tag where (name like '%${keyword}%'))))) order by id desc;
-        `
-        : `select id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from post where ${category} like '%${keyword}%' order by id desc`;
+    sql = "";
+    switch (category) {
+      case "hashtag":
+        sql = `select post.id, post.title, post.writer, post.reg_date,post.comment_cnt, post.view_cnt, post.like_cnt from post join post_tag on post.id = post_tag.post_id join tag on tag.id = post_tag.tag_id where tag.name = "${keyword}"`; // 찾으려는 post 들의 id 를 출력
+        break;
+      default:
+        sql = `select id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt from post where ${category} like '%${keyword}%' order by id desc`;
+        break;
+    }
     connection.query(sql, (err, rows) => {
       if (err) res.send(err);
       else {
@@ -30,7 +30,6 @@ router.get("/", (req, res) => {
         });
       }
     });
-
     connection.release();
   });
 });

@@ -1,7 +1,8 @@
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import styles from './postCreate.module.css'
+import styles from "./postCreate.module.css";
+import HashtagInput from "../../component/PostCreate/HashtagInput";
 
 export default function PostCreate() {
   const [inputs, setInputs] = useState({
@@ -9,9 +10,10 @@ export default function PostCreate() {
     writer: "",
     password: "",
     content: "",
-    hashtag: "",
   });
-  const navigate = useNavigate()
+  const [hashtagList, setHashtagList] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   const onChange = (e: any) => {
     const { value, name } = e.target;
@@ -22,17 +24,18 @@ export default function PostCreate() {
   };
 
   const createPostHandle = (e: FormEvent) => {
-    e.preventDefault(); 
-    axios.post(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
-      ...inputs
-    }).then(()=>
-      navigate("/")
-    )
+    e.preventDefault();
+    axios
+      .post(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
+        ...inputs,
+        hashtagList:hashtagList
+      })
+      .then(() => navigate("/"));
   };
 
   return (
     <div className={styles.Container}>
-      <form action="" onSubmit={createPostHandle} >
+      <form id="newPost" onSubmit={createPostHandle} className={styles.Form}>
         <label>
           제목:
           <input type="text" name="title" required onChange={onChange} />
@@ -49,12 +52,15 @@ export default function PostCreate() {
           내용 :
           <textarea name="content" required onChange={onChange} />
         </label>
+        </form>
         <label>
           해쉬태그:
-          <input type="text" name="hashtag" onChange={onChange} />
+          <HashtagInput
+            hashtagList={hashtagList}
+            setHashtagList={setHashtagList}
+          />
         </label>
-        <button>글 등록하기</button>
-      </form>
+        <button type="submit" form="newPost">글 등록하기</button>
     </div>
   );
 }

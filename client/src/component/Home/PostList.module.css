@@ -1,0 +1,26 @@
+.Home {
+    width: 1024px;
+    margin: auto;
+}
+
+.Post {
+    text-align: left;
+    margin: auto;
+}
+
+.Post li {
+    list-style-type: none;
+    border-bottom: black solid 1px;
+}
+.Post li div{
+    display: inline-block  ;
+}
+
+.Section1 {
+    width: 70%;
+}
+.Post li div p{
+    font: 100;
+    color: gray;
+    line-height: 0;
+}
