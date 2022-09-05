@@ -109,16 +109,14 @@ export default function Post() {
         <ul className={styles.Hashtags}>
           {postData.hashtagList.map((tag) => {
             return (
-              // Link에서 Home = PostList 에 props 주면, PostList에서 해당 props로 hashtag 검색한 페이지
               <li>
                 <Link
                   to="/"
                   state={{
                     keyword:tag,
-                    category:"tag"
+                    category:"hashtag"
                   }}
                 >#{tag}</Link>
-                {/* <Link to="/" state: {d:"s"}}}>#{tag}</Link>  */}
               </li>
             );
           })}

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 interface props {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -8,10 +9,10 @@ interface props {
       keyword: string;
     }>
   >;
+  location:any;
 }
 
 export default function SearchBar(props: props) {
-  // ref.current 마다 null 처리 하는 문제 때문에 any 사용
   const keywordRef = useRef<any>();
   const categoryRef = useRef<any>();
 
@@ -23,7 +24,6 @@ export default function SearchBar(props: props) {
     });
     props.setCurrentPage(1)
   };
-
   return (
     <div>
       <form onSubmit={searchHandler}>
