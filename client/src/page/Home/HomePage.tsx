@@ -8,20 +8,20 @@ import { searchPosts } from "../../api/api";
 import PostList from "../../component/Home/PostList";
 
 export default function HomePage() {
+  // best는 redux로 검색category, keyword 관리하는 것 
   const { state } = useLocation();
 
   const [postList, setPostList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(0);
-
+  
   const [totalCouter, setTotalCouter] = useState([0, 0]);
 
   const [searchKeyword, setSearchKeyword] = useState({
-    category: "title",
-    keyword: "",
+    category: state  ? (state as any).category: "title",
+    keyword: state  ? (state as any).keyword: "",
   });
-  console.log(searchKeyword);
-
+  
   useEffect(() => {
     searchPosts(
       currentPage,
@@ -30,17 +30,12 @@ export default function HomePage() {
     ).then((res) => {
       setTotalPageNum(res.data.totalPageCnt);
       setPostList(res.data.posts);
+      // To clear locate.state 
+      window.history.replaceState({}, document.title)
     });
   }, [currentPage, searchKeyword]);
 
   useEffect(() => {
-    if ( state ) {
-      setSearchKeyword({
-        category: (state as any).category,
-        keyword: (state as any).keyword,
-      });
-    }
-
     axios
       .get(`//${process.env.REACT_APP_API_SERVER_URL}/counter`)
       .then((res) => {
@@ -61,6 +56,7 @@ export default function HomePage() {
       <SearchBar
         setCurrentPage={setCurrentPage}
         setSearchKeyword={setSearchKeyword}
+        location={state}
       />
       <Link to="/post/new">새 글 쓰기</Link>
       <PostList postList={postList} />
