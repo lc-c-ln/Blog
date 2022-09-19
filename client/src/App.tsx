@@ -7,6 +7,7 @@ import PostCreate from './page/PostCreate/PostCreate';
 import HomePage from './page/Home/HomePage';
 import PostPage from './page/Post/PostPage';
 import PostUpdate from './page/PostUpdate/PostUpdate';
+import LoginPage from './page/Auth/LoginPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
       <Route path="/post/:post_id" element={<PostPage />}/>
       <Route path="/post/update/:post_id" element={<PostUpdate />}/>
+      <Route path="/auth" element={<LoginPage />}/>
       <Route path="/" element={<HomePage />} />
         <Route path="/post/new" element={<PostCreate />} />
       </Routes>

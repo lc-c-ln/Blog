@@ -11,7 +11,11 @@ interface props {
 }
 
 export default function ParentComment({ comment, postId }: props) {
+  const [replyList, setReplyList] =useState([])
+  
+
   const [childCommentList, setChildCommentList] = useState([]);
+
   const getChildCommentList = () => {
     axios
       .get(`//${process.env.REACT_APP_API_SERVER_URL}/comment`, {
@@ -40,11 +44,12 @@ export default function ParentComment({ comment, postId }: props) {
     ).then(() => getChildCommentList());
   };
 
+  // childCommentList가 바뀌면 map도 바뀌어야 하는거 아니냐
   const childCommets = childCommentList.map((comment) => {
     return comment["deleted"] ? (
-      <DeletedComment comment={comment} />
+      <DeletedComment comment={comment} key={comment["id"]}/>
     ) : (
-      <BasicComment comment={comment} />
+      <BasicComment comment={comment} key={comment["id"]}/>
     );
   });
 
@@ -86,3 +91,4 @@ export default function ParentComment({ comment, postId }: props) {
     </>
   );
 }
+
