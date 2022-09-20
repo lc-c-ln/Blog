@@ -17,7 +17,7 @@ export default function CommentSection({ postId }: props) {
     const content = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const writer = (e.currentTarget.elements[1] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[2] as HTMLInputElement).value;
-
+    
     createComment(postId,content, null ,writer,password)
       .then(() => {
         getCommentList();
@@ -36,7 +36,7 @@ export default function CommentSection({ postId }: props) {
 
   const comments = (commentToggle ? commentList : commentList.slice(0, 5)).map(
     (comment) => {
-      return <ParentComment comment={comment} postId={postId} />;
+      return <ParentComment key={comment["id"]} comment={comment} postId={postId} />;
     }
   );
 
@@ -63,6 +63,7 @@ export default function CommentSection({ postId }: props) {
         />
         <button>댓글 달기</button>
       </form>
+
       <ul>{comments}</ul>
 
       {commentToggle ? (

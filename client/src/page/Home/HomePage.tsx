@@ -8,7 +8,7 @@ import { searchPosts } from "../../api/api";
 import PostList from "../../component/Home/PostList";
 
 export default function HomePage() {
-  // best는 redux로 검색category, keyword 관리하는 것 
+  // best는 redux로 검색 category, keyword 관리하는 것 
   const { state } = useLocation();
 
   const [postList, setPostList] = useState([]);
@@ -36,7 +36,7 @@ export default function HomePage() {
   }, [currentPage, searchKeyword]);
 
   useEffect(() => {
-    axios
+    axios 
       .get(`//${process.env.REACT_APP_API_SERVER_URL}/counter`)
       .then((res) => {
         setTotalCouter([res.data.postCnt, res.data.commentCnt]);

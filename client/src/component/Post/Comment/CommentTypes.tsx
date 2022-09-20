@@ -42,14 +42,3 @@ export const BasicComment = ({ comment }: props) => {
     </li>
   );
 };
-
-export const ParentComment = ({ comment }: props) => {
-  return (
-    <li key={comment["id"]} className={styles.Comment}>
-      <div>
-        <p>{comment["content"]}</p>
-        <p>작성자: {comment["writer"]}</p>
-      </div>
-    </li>
-  );
-};
