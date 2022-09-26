@@ -1,10 +1,12 @@
 
+/* 댓글 작성 Form */
 .CommentSection form {
     width: 100%;
     background-color: rgb(201, 252, 235);
     padding: 10px;
-
 }
+
+/* 댓글 작성 Form - 작성자 명 */
 .CommentSection form .WriterPassword{
     width: 20%;
     margin-right: 10px;
