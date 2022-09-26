@@ -2,7 +2,9 @@ module.exports  = {
   development: {
     user: "root",
     password: "0000",
-    database: "nts",
+    // database: "nts",
+    database: "bloglogin",
+
     multipleStatements : true,
     host: "127.0.0.1"
   },
