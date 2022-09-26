@@ -13,22 +13,21 @@ router.get("/", (req, res) => {
     switch (category) {
       case "hashtag":
         sql = `select post.id, post.title, user.name, post.register_date, post.comment_cnt,
-        post.view_cnt, sum(like_post.like_flag) as like_cnt
+        post.view_cnt, post.like_cnt
         from post 
           join user on post.user_id = user.id
-          join like_post on post.id = like_post.post_id
           join post_tag on post.id = post_tag.post_id 
           join (select id from tag where tag.name = "${keyword}")
            tag on tag.id = post_tag.tag_id
         `
         break;
       default:
-        sql = `select post.id, post.title, user.name, post.register_date, post.comment_cnt, post.view_cnt, sum(like_post.like_flag) as like_cnt
+        sql = `select post.id, post.title, user.name, post.register_date, post.comment_cnt, post.view_cnt, post.like_cnt
         from (
-          select id, title, register_date, comment_cnt, view_cnt, user_id 
+          select id, title, register_date, comment_cnt, view_cnt, user_id, like_cnt
           from post where ${category} like '%${keyword}%') post 
           join user on post.user_id = user.id 
-          join like_post on post.id = like_post.post_id`
+        `
         break;
     }
     /** Pagenation에 Offset을 이용하지 않고, SQL을 작성한 건,
