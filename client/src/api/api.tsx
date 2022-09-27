@@ -43,9 +43,29 @@ export const deleteComment = async (comment_id: number, password: string) => {
   }
 };
 
-/*
-Post API
-*/
+// Post API
+export const createPost = async (title: string, content:string, user_id:number,  hashtags:string[]) => {
+  return await axios.post(`//${SERVER_URL}/post`,{
+    title,
+    content,
+    user_id,
+    hashtags
+  })
+}
+
+export const searchPosts = async (
+  page: number,
+  keyword: string,
+  category: string
+) => {
+  return await axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
+    params: {
+      page: page,
+      keyword: keyword,
+      category: category,
+    },
+  });
+};
 export const updateLikeCount = async (post_id: number, count: number) => {
   return await axios.put(`${SERVER_URL}/post/like`, {
     id: post_id,
@@ -66,19 +86,6 @@ export const updateViewCount = async (post_id: number) => {
     });
 };
 
-export const searchPosts = async (
-  page: number,
-  keyword: string,
-  category: string
-) => {
-  return await axios.get(`//${process.env.REACT_APP_API_SERVER_URL}/search`, {
-    params: {
-      page: page,
-      keyword: keyword,
-      category: category,
-    },
-  });
-};
 
 /* Auth API */
 export const checkPassword = async (comment_id: number, password: string) => {

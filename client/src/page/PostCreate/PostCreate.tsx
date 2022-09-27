@@ -3,13 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./postCreate.module.css";
 import HashtagInput from "../../component/PostCreate/HashtagInput";
-
+import { createPost } from "../../api/api";
 export default function PostCreate() {
+  // redux 에서 user 정보 가져와서 user_id로 받아야 함.
   const [inputs, setInputs] = useState({
     title: "",
-    writer: "",
-    password: "",
     content: "",
+    user_id: 0,
   });
   const [hashtagList, setHashtagList] = useState<string[]>([]);
 
@@ -25,11 +25,7 @@ export default function PostCreate() {
 
   const createPostHandle = (e: FormEvent) => {
     e.preventDefault();
-    axios
-      .post(`//${process.env.REACT_APP_API_SERVER_URL}/post`, {
-        ...inputs,
-        hashtagList:hashtagList
-      })
+    createPost(inputs.title, inputs.content, inputs.user_id, hashtagList)
       .then(() => navigate("/"));
   };
 
@@ -43,10 +39,6 @@ export default function PostCreate() {
         <label className={styles.inline}>
           작성자:
           <input type="text" name="writer" required onChange={onChange} />
-        </label>
-        <label className={styles.inline}>
-          비밀번호:
-          <input type="password" name="password" required onChange={onChange} />
         </label>
         <label className={styles.Content}>
           내용 :

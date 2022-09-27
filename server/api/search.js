@@ -7,7 +7,6 @@ router.get("/", (req, res) => {
   const category = req.query["category"]; //title,writer,hashtag,content
   const keyword = req.query["keyword"];
   const page = req.query["page"];
-  console.log(category)
   const con = pool.getConnection((err, connection) => {
     sql = "";
     switch (category) {

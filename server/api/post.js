@@ -6,9 +6,13 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   const id = req.query["post_id"];
+  // 잠시 보류. post create 가능해진 이후에 할 것
   pool.getConnection((err, connection) => {
-    sql1 = `SELECT id, title, writer, reg_date, comment_cnt, view_cnt, like_cnt, content from POST where (id=${id})`;
-    sql2 = `select tag.name from tag join post_tag on post_tag.tag_id = tag.id where post_tag.post_id=${id}`;
+    sql1 = `SELECT id, title, writer, register_date, comment_cnt, view_cnt, like_cnt, content, (
+      select tag.name from tag join post_tag on post_tag.tag_id = tag.id where post_tag.post_id=${id}) tags 
+    from POST where (id=${id}) 
+    `;
+    // sql2 = `select tag.name from tag join post_tag on post_tag.tag_id = tag.id where post_tag.post_id=${id}`;
     connection.query(sql1, (err, rows1) => {
       connection.query(sql2, (err2, rows2) => {
         res.json({
@@ -25,14 +29,11 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const hashtagList = req.body.hashtagList;
-  password = crypto
-    .createHash("sha256")
-    .update(req.body.password)
-    .digest("base64");
   const con = pool.getConnection((err, connection) => {
-    const sql = `insert into post(title, writer, content, password) values("${req.body.title}","${req.body.writer}","${req.body.content}","${password}");`;
+    const sql = `insert into post(title, user_id, content) values("${req.body.title}","${req.body.writer}","${req.body.content}");`;
     try {
       connection.query(sql, (err, rows) => {
+        console.log(err, rows)
         const post_id = rows.insertId;
         for (const tagName of hashtagList) {
           connection.query(
@@ -57,10 +58,6 @@ router.post("/", (req, res) => {
 
 router.put("/", (req, res) => {
   const hashtagList = req.body.hashtagList;
-  password = crypto
-    .createHash("sha256")
-    .update(req.body.password)
-    .digest("base64");
   const con = pool.getConnection((err, connection) => {
     // post Table 내용 수정
     const sql = `update post set title="${req.body.title}",content="${req.body.content}",writer="${req.body.writer}", password="${password}" where (id=${req.body.id})`;
